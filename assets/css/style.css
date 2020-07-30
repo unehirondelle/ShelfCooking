@@ -362,6 +362,11 @@ section {
     font-size: 26px;
 }
 
+.cookbook .plus-circle {
+    font-size: x-large;
+    color: #444;
+}
+
 .cookbook ul {
     list-style: none;
     padding: 0;
@@ -394,6 +399,10 @@ section {
     padding-bottom: 30px;
 }
 
+.inventory .plus-circle {
+    font-size: x-large;
+    color: #444;
+}
 .inventory .card {
     border-radius: 3px;
     border: 0;
