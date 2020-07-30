@@ -47,23 +47,23 @@
       <nav class="nav-menu">
         <ul>
           <li class="active"><a href="#header">Home</a></li>
-          <li><a href="#about">About Us</a></li>
-          <li><a href="#why-us">Why Us</a></li>
-          <li class="drop-down"><a href="">Drop Down</a>
+          <li><a href="#cookbook">CookBook</a></li>
+          <li><a href="#why-us">Inventory</a></li>
+          <li><a href="#contact">Profile</a></li>
+          <li class="drop-down"><a href="">More</a>
             <ul>
-              <li><a href="#">Drop Down 1</a></li>
-              <li class="drop-down"><a href="#">Drop Down 2</a>
+              <li><a href="#">Favorites</a></li>
+              <!--<li class="drop-down"><a href="#">Drop Down 2</a>
                 <ul>
                   <li><a href="#">Deep Drop Down 1</a></li>
                   <li><a href="#">Deep Drop Down 2</a></li>
                   <li><a href="#">Deep Drop Down 3</a></li>
                   <li><a href="#">Deep Drop Down 4</a></li>
                   <li><a href="#">Deep Drop Down 5</a></li>
-                </ul>
+                </ul>-->
               </li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>
-              <li><a href="#">Drop Down 5</a></li>
+              <li><a href="#">Shopping List</a></li>
+              <li><a href="#">Add Item</a></li>
             </ul>
           </li>
           <li><a href="#contact">Contact Us</a></li>
@@ -76,35 +76,39 @@
   <!-- ======= Hero Section ======= -->
   <section id="hero">
     <div class="hero-container">
-      <h1>Welcome to Siimple</h1>
-      <h2>Please, fill out the for below to be notified for the latest updates!</h2>
+      <h1>Welcome to ShelfCooking</h1>
+      <h2>Please, sign in or <a href="#"><span>sign up</span></a> if you're not with us yet</h2>
 
       <form action="forms/notify.php" method="post" role="form" class="php-email-form">
         <div class="row no-gutters">
-          <div class="col-md-6 form-group pr-md-1">
+         <!-- <div class="col-md-6 form-group pr-md-1">
             <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
             <div class="validate"></div>
-          </div>
+          </div>-->
           <div class="col-md-6 form-group pl-md-1">
             <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
             <div class="validate"></div>
           </div>
+          <div class="col-md-6 form-group pr-md-1">
+            <input type="text" name="name" class="form-control" id="password" placeholder="Your Password"/>
+            <div class="validate"></div>
+          </div>
         </div>
 
-        <div class="mb-1">
+        <!--<div class="mb-1">
           <div class="loading">Loading</div>
           <div class="error-message"></div>
           <div class="sent-message">Your notification request was sent. Thank you!</div>
-        </div>
-        <div class="text-center"><button type="submit">Notify me!</button></div>
+        </div>-->
+        <div class="text-center"><button type="submit">Sign In!</button></div>
       </form>
     </div>
   </section><!-- #hero -->
 
   <main id="main">
 
-    <!-- ======= About Section ======= -->
-    <section id="about" class="about">
+    <!-- ======= CookBook Section ======= -->
+    <section id="cookbook" class="cookbook">
       <div class="container">
 
         <div class="row">
@@ -131,7 +135,7 @@
         </div>
 
       </div>
-    </section><!-- End About Section -->
+    </section><!-- End CookBook Section -->
 
     <!-- ======= Why Us Section ======= -->
     <section id="why-us" class="why-us section-bg">
