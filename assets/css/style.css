@@ -31,6 +31,9 @@ h1, h2, h3, h4, h5, h6, .font-primary {
     padding: 1vw 0;
 }
 
+.card-body {
+    padding: 1vw 0 1vw 2vw;
+}
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
@@ -385,6 +388,11 @@ section {
 
 .cookbook ol {
     padding-left: 7vw;
+    padding-right: 5vw;
+}
+
+.cookbook ol li {
+    padding: 1vw 0;
 }
 
 .cookbook p:last-child {
