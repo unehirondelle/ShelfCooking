@@ -26,6 +26,11 @@ h1, h2, h3, h4, h5, h6, .font-primary {
     font-family: "Raleway", sans-serif;
 }
 
+.list-items {
+    font-size: 0.8rem;
+    padding: 1vw 0;
+}
+
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
@@ -317,7 +322,7 @@ h1, h2, h3, h4, h5, h6, .font-primary {
 # Sections General
 --------------------------------------------------------------*/
 section {
-    padding: 80px 0;
+    padding: 20px 0;
 }
 
 .section-bg {
@@ -372,14 +377,14 @@ section {
     padding: 0;
 }
 
-.cookbook ul li {
-    padding-bottom: 10px;
-}
-
 .cookbook ul i {
     font-size: 20px;
     padding-right: 4px;
     color: #fd680e;
+}
+
+.cookbook ol {
+    padding-left: 7vw;
 }
 
 .cookbook p:last-child {
@@ -392,6 +397,11 @@ section {
     padding: 2vw;
 }
 
+.cart {
+    position: absolute;
+    right: 5vw;
+}
+
 /*--------------------------------------------------------------
 # Inventory
 --------------------------------------------------------------*/
@@ -399,10 +409,16 @@ section {
     padding-bottom: 30px;
 }
 
+.inventory h3 {
+    font-weight: 300;
+    font-size: 26px;
+}
+
 .inventory .plus-circle {
     font-size: x-large;
     color: #444;
 }
+
 .inventory .card {
     border-radius: 3px;
     border: 0;
