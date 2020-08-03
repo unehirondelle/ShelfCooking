@@ -46,6 +46,7 @@ values ('Oatmeal',
         '8 min',
         '1');
 
+# "Crock Madame" recipe starts
 insert into recipe_ingredients (recipe_id, ingredient_id, measurement_qty, measurement_id)
 values (1, 1, 2, 8);
 
@@ -75,6 +76,27 @@ values (1, 9, 0.5, 2);
 
 insert into recipe_ingredients (recipe_id, ingredient_id, measurement_qty, measurement_id)
 values (1, 10, 1, 6);
+# "Crock Madame" recipe ends
+
+# "Oatmeal" recipe starts
+insert into recipe_ingredients (recipe_id, ingredient_id, measurement_qty, measurement_id)
+values (2, 4, 2, 3);
+
+insert into recipe_ingredients (recipe_id, ingredient_id, measurement_qty, measurement_id)
+values (2, 11, 1, 1);
+
+insert into recipe_ingredients (recipe_id, ingredient_id, measurement_qty, measurement_id)
+values (2, 12, 1.5, 1);
+
+insert into recipe_ingredients (recipe_id, ingredient_id, measurement_qty, measurement_id)
+values (2, 9, 1, 6);
+
+insert into recipe_ingredients (recipe_id, ingredient_id, measurement_qty, measurement_id)
+values (2, 13, 0.5, 2);
+
+insert into recipe_ingredients (recipe_id, ingredient_id, measurement_qty, measurement_id)
+values (2, 14, 0.5, 1);
+# "Oatmeal" recipe ends
 
 select r.name             as 'Recipe',
        r.time             as 'Time',
