@@ -98,14 +98,13 @@ insert into recipe_ingredients (recipe_id, ingredient_id, measurement_qty, measu
 values (2, 14, 0.5, 1);
 # "Oatmeal" recipe ends
 
-select r.name             as 'Recipe',
-       r.time             as 'Time',
-       r.person_num       as 'Persons',
+select ri.recipe_id,
        i.name             as 'Ingredient',
        ri.measurement_qty as 'Amount',
-       mu.name            as 'Unit of Measure',
-       r.method           as 'Method'
-from recipes r
-         join recipe_ingredients ri on r.id = ri.recipe_id
+       mu.name            as 'Unit of Measure'
+from recipe_ingredients ri
          join ingredients i on i.id = ri.ingredient_id
-         left outer join measurement_units mu on mu.id = measurement_id;
+         left outer join measurement_units mu on mu.id = measurement_id
+where recipe_id = 1;
+
+select * from recipes where id = 1;
