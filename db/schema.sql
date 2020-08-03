@@ -4,33 +4,34 @@ use recipes_db;
 
 create table recipes
 (
-    recipe_id     int auto_increment primary key,
-    recipe_name   varchar(50)    not null,
-    recipe_method varchar(10000) not null
+    recipe_id         int auto_increment primary key,
+    recipe_name       varchar(50)    not null,
+    recipe_method     varchar(10000) not null,
+    recipe_time       varchar(10),
+    recipe_person_num int
 );
 
 create table measurement_units
 (
-    measurement_id          int auto_increment,
+    measurement_id          int auto_increment primary key,
     measurement_description varchar(10)
 );
 
 create table ingredients
 (
-    ingredient_id   int auto_increment,
+    ingredient_id   int auto_increment primary key,
     ingredient_name varchar(30)
 );
 
 create table utencils
 (
-    utencil_id   int auto_increment,
+    utencil_id   int auto_increment primary key,
     utencil_name varchar(30)
 )
 
 create table recipe_ingredients
 (
     recipe_id       int,
-    utencil_id      int,
     ingredient_id   int,
     measurement_qty int,
     measurement_id  int,
