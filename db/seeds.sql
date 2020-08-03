@@ -99,9 +99,9 @@ values (2, 14, 0.5, 1);
 # "Oatmeal" recipe ends
 
 select ri.recipe_id,
-       i.name             as 'Ingredient',
-       ri.measurement_qty as 'Amount',
-       mu.name            as 'Unit of Measure'
+       i.name as 'name',
+       ri.measurement_qty as 'amount',
+       mu.name as 'unit'
 from recipe_ingredients ri
          join ingredients i on i.id = ri.ingredient_id
          left outer join measurement_units mu on mu.id = measurement_id
