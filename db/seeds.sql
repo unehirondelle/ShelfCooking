@@ -36,7 +36,7 @@ values ('Knife'),
 
 insert into recipes (name, method, time, person_num)
 values ('Crock Madame',
-        'Melt the butter in a pan on a low-high. Add flour, cook until it goldens. Add salt, nutmeg, and bay leaf, cook until thickened. Fry bread on a dry pan, both sides, until crispy. Spread half of the sauce over 1 slice of bread, put ham on top, add another slice of bread, spread the rest sauce, sprinkle with cheese, put under the grill for 7 mins. Fry an egg sunny side up. Take the sandwich from the oven, put the egg in the top, sprinkle with herbs.',
+        '<li>Melt the butter in a pan on a low-high.</li> <li>Add flour, cook until it goldens.</li> <li>Add salt, nutmeg, and bay leaf, cook until thickened.</li> <li>Fry bread on a dry pan, both sides, until crispy.</li> <li>Spread half of the sauce over 1 slice of bread, put ham on top, add another slice of bread, spread the rest sauce, sprinkle with cheese, put under the grill for 7 mins.</li> <li>Fry an egg sunny side up.</li> <li>Take the sandwich from the oven, put the egg in the top, sprinkle with herbs.</li>',
         '20 min',
         '1');
 
