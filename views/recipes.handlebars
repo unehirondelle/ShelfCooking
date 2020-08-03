@@ -1,0 +1,20 @@
+<div class="jumbotron jumbotron-fluid">
+    <h1 class="display-4 text-center">We're happy to share our lovely recipes with you:</h1>
+</div>
+<div class="container">
+    <div class="row">
+        {{#each recipes}}
+            <div class="col mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <a class="btn btn-info w-100" href="/{{route}}"><h4>{{name}}</h4></a>
+                        <p class="lead">Name: {{name}}</p>
+                        <p class="lead">Method: {{method}}</p>
+                        <p class="lead">Time: {{time}}</p>
+                        <p class="lead">Persons: {{person_num}}</p>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</div>

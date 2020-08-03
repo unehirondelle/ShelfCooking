@@ -1,0 +1,31 @@
+<h1>Your order:</h1>
+
+<table class="table table-striped">
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Size</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Price</th>
+        <th scope="col">Total</th>
+        <th scope="col">Your Comment</th>
+        <th scope="col"></th>
+    </tr>
+    {{#each orderlist}}
+        <tr id="{{route}}">
+            <td>{{name}}</td>
+            <td>{{size}}in</td>
+            <td>{{quantity}}</td>
+            <td>${{price}}</td>
+            <td>${{total}}</td>
+            <td>{{comment}}</td>
+            <td>
+                <button class="btn btn-info" id="{{id}}">Delete</button>
+            </td>
+        </tr>
+    {{/each}}
+</table>
+<a href="/">
+    <button class="btn btn-info">Back to cakes list</button>
+    <button>Random button</button>
+    <button>Another button</button>
+</a>
