@@ -42,7 +42,7 @@ values ('Crock Madame',
 
 insert into recipes (name, method, time, person_num)
 values ('Oatmeal',
-        'Mix everything together, Put in the microwave on max power for 3 mins or until it starts to boil. Watch to it doesn''t overflow. Leave in a microwave for 5 mins more.',
+        '<li>Mix everything together, Put in the microwave on max power for 3 mins or until it starts to boil. Watch to it doesn''t overflow.</li> <li>Leave in a microwave for 5 mins more.</li>',
         '8 min',
         '1');
 
