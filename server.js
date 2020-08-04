@@ -2,12 +2,13 @@ const express = require("express");
 const exprhnlbs = require("express-handlebars");
 const mysql = require("mysql");
 require('dotenv').config();
+const path = require("path");
 
 const app = express();
 
 const PORT = process.env.PORT || 3010;
 
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(path.join(__dirname, 'public')));
 
 //middleware to transform the request so the data that was sent on req.body could be read
 app.use(express.urlencoded({extended: true}));
@@ -49,22 +50,30 @@ app.get("/", (req, res) => {
     const sql_rec = "select * from recipes;"
     connection.query(sql_rec, (err, data) => {
         if (err) throw err;
-        console.log("Recipes:", data);
         res.render("recipes", {recipes: data});
     });
 });
 
-app.get("/:recipeId", (req, res) => {
+app.get("/recipes/:recipeId", (req, res) => {
     const sql_route = `select * from recipes where id="${req.params.recipeId}"`;
     connection.query(sql_route, (err, data_route) => {
         if (err) throw err;
-        console.log("Route_data:", data_route);
         const sql_ingr = "select ri.recipe_id, i.name as 'name', ri.measurement_qty as 'amount', mu.name as 'unit' from recipe_ingredients ri join ingredients i on i.id = ri.ingredient_id left outer join measurement_units mu on mu.id = measurement_id where recipe_id = 1;"
         connection.query(sql_ingr, (err, data_ingr) => {
             if (err) throw err;
-            console.log("Ingredients:", data_ingr);
-            res.render("recipe-id", {ingredients: data_ingr, recipe: data_route[0]});
+            res.render("recipe-id", {recipe: data_route[0], ingredients: data_ingr});
         });
+    });
+});
+
+app.get("/images/:imageId", (req, res) => {
+    const sql = `select * from recipes where id="${req.params.imageId}"`;
+    connection.query(sql, (err, data) => {
+        if (err) throw err;
+        res.contentType("image/jpeg");
+        let buffer = Buffer.from(data[0].image, 'binary');
+        res.write(buffer);
+        res.end()
     });
 });
 
