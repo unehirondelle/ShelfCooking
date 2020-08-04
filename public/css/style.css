@@ -405,6 +405,10 @@ section {
     padding: 2vw;
 }
 
+.cookbook a {
+    color: #fd680e;
+}
+
 .cart {
     position: absolute;
     right: 5vw;
@@ -461,6 +465,7 @@ section {
 .inventory .card-title {
     font-weight: 700;
     text-align: center;
+    color: #fd680e;
 }
 
 .inventory .card-title a {

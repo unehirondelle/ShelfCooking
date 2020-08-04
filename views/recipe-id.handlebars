@@ -1,41 +1,4 @@
-<header id="header">
-    <div class="container-fluid">
-
-        <div class="logo float-left">
-            <!--        <h1 class="text-light"><a href="index.html"><span>ShelfCooking</span></a></h1>-->
-            <!-- Uncomment below if you prefer to use an image logo -->
-            <a href="index.html"><img src="public/img/logo.png" alt="" class="img-fluid"></a>
-        </div>
-
-        <button type="button" class="nav-toggle"><i class="bx bx-menu"></i></button>
-        <nav class="nav-menu">
-            <ul>
-                <li class="active"><a href="#header">Home</a></li>
-                <li><a href="#cookbook">CookBook</a></li>
-                <li><a href="#inventory">Inventory</a></li>
-                <li><a href="#contact">Profile</a></li>
-                <li class="drop-down"><a href="">More</a>
-                    <ul>
-                        <li><a href="#">Favorites</a></li>
-                        <!--<li class="drop-down"><a href="#">Drop Down 2</a>
-                          <ul>
-                            <li><a href="#">Deep Drop Down 1</a></li>
-                            <li><a href="#">Deep Drop Down 2</a></li>
-                            <li><a href="#">Deep Drop Down 3</a></li>
-                            <li><a href="#">Deep Drop Down 4</a></li>
-                            <li><a href="#">Deep Drop Down 5</a></li>
-                          </ul>-->
-                        </li>
-                        <li><a href="#">Shopping List</a></li>
-                        <li><a href="#">Add Item</a></li>
-                    </ul>
-                </li>
-                <li><a href="#contact">Contact Us</a></li>
-            </ul>
-        </nav><!-- .nav-menu -->
-
-    </div>
-</header>
+{{> header}}
 
 <main id="main">
     <section id="cookbook" class="cookbook">
@@ -72,9 +35,9 @@
                                 <ol class="list-items">{{{recipe.method}}}</ol>
                             </div>
                         </div>
-                        <!-- <a href="/">
-                             <button class="btn btn-info">Back to recipes</button>
-                         </a>-->
+                        <a href="/">
+                            Back to Breakfast list
+                        </a>
                     </div>
                 </div>
             </div>

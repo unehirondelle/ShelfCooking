@@ -1,20 +1,43 @@
-<div class="jumbotron jumbotron-fluid">
-    <h1 class="display-4 text-center">We're happy to share our lovely recipes with you:</h1>
-</div>
-<div class="container">
-    <div class="row">
-        {{#each recipes}}
-            <div class="col mb-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <a class="btn btn-info w-100" href="/{{route}}"><h4>{{name}}</h4></a>
-                        <p class="lead">Name: {{name}}</p>
-                        <p class="lead">Method: {{method}}</p>
-                        <p class="lead">Time: {{time}}</p>
-                        <p class="lead">Persons: {{person_num}}</p>
-                    </div>
+{{> header}}
+
+<main id="main">
+
+    <section id="cookbook" class="cookbook">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <h1>CookBook <a href="#" class="plus-circle"><i class="bx bx-plus-circle"></i></a></h1>
+                    <h3>Breakfast</h3>
                 </div>
             </div>
-        {{/each}}
+            <div class="row">
+                {{#each recipes}}
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                        <div class="card">
+                            <img src="img/sandwich.jpg" class="card-img-top" alt="sandwich picture">
+                            <div>
+                                <h6><i class="bx bx-time"></i> {{time}} <i class="bx bx-face"></i>{{person_num}}</h6>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="/{{id}}">{{name}}</a></h5>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer id="footer">
+    <div class="container">
+        <div class="copyright">
+            Irina Plaksina. 2020
+        </div>
+        <div class="credits">
+            Based on <strong><span>Siimple</span></strong> by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        </div>
     </div>
-</div>
+</footer>
