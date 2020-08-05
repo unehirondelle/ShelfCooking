@@ -43,15 +43,30 @@
             <div class="form-row" id="ingredients-list">
                 <div>
                     <label for="ingredient">Ingredient's name</label>
-                    <input type="text" class="form-control error" id="ingredient" name="ingredient"
-                           placeholder="Ingredient's name"/>
+                    <select class="custom-select error" id="ingredient" name="ingredient">
+                        <option value>Choose one of these options</option>
+                        <option value="1">Bread</option>
+                        <option value="2">Milk</option>
+                        <option value="3">All-Purpose flour</option>
+                        <option value="4">Butter</option>
+                        <option value="5">Eggs</option>
+                        <option value="6">Ham</option>
+                        <option value="7">Bay Leaf</option>
+                        <option value="8">Nutmeg</option>
+                        <option value="9">Salt</option>
+                        <option value="10">Herbs</option>
+                        <option value="11">Classic Rolled Oatmeal</option>
+                        <option value="12">Water</option>
+                        <option value="13">Ground Cinnamon</option>
+                        <option value="14">Fruits</option>
+                    </select>
                     <label id="ingredient-error" class="error" for="ingredient">Please enter ingredient's name</label>
                 </div>
                 <div>
                     <label for="ingredient-qty">Quantity</label>
                     <input type="text" class="form-control error" id="ingredient-qty" name="ingredient-qty"
                            placeholder="Quantity"/>
-                    <label id="ingredient-error" class="error" for="ingredient">Please enter ingredient's
+                    <label id="ingredient-qty-error" class="error" for="ingredient">Please enter ingredient's
                         quantity</label>
                 </div>
                 <div>
