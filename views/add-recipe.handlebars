@@ -7,26 +7,26 @@
             <div class="form-row">
                 <div>
                     <label for="recipe-name">Recipe</label>
-                    <input type="text" class="form-control error" id="recipe-name" name="recipe-name"
+                    <input type="text" class="form-control error" id="recipe-name" name="recipeName"
                            placeholder="Recipe's name"/>
                     <label id="recipe-name-error" class="error" for="recipe-name">Please enter recipe's name</label>
                 </div>
                 <div>
                     <label for="recipe-time">Time</label>
-                    <input type="text" class="form-control error" id="recipe-time" name="recipe-time"
+                    <input type="text" class="form-control error" id="recipe-time" name="recipeTime"
                            placeholder="Time"/>
                     <label id="recipe-time-error" class="error" for="recipe-time">Please enter required time</label>
                 </div>
                 <div>
                     <label for="person-num">Portions</label>
                     <small class="text-muted">Up to 20</small>
-                    <input type="number" class="form-control error" id="person-num" name="person-num"
+                    <input type="number" class="form-control error" id="person-num" name="portions"
                            min="1" max="20"/>
                     <label id="person-num-error" class="error" for="person-num">Please enter number of portions</label>
                 </div>
                 <div>
                     <label for="recipe-category">Category</label>
-                    <select class="custom-select error" id="recipe-category" name="recipe-category">
+                    <select class="custom-select error" id="recipe-category" name="recipeCategory">
                         <option value>Choose one of these options</option>
                         <option value="breakfast">Breakfast</option>
                         <option value="lunch">Lunch</option>
@@ -64,14 +64,14 @@
                 </div>
                 <div>
                     <label for="ingredient-qty">Quantity</label>
-                    <input type="text" class="form-control error" id="ingredient-qty" name="ingredient-qty"
+                    <input type="text" class="form-control error" id="ingredient-qty" name="ingredientQty"
                            placeholder="Quantity"/>
                     <label id="ingredient-qty-error" class="error" for="ingredient">Please enter ingredient's
                         quantity</label>
                 </div>
                 <div>
                     <label for="ingredient-unit">Unit</label>
-                    <select class="custom-select error" id="ingredient-unit" name="ingredient-unit">
+                    <select class="custom-select error" id="ingredient-unit" name="ingredientUnit">
                         <option value>Choose one of these options</option>
                         <option value="1">cup</option>
                         <option value="2">tsp</option>
@@ -91,9 +91,9 @@
             <div class="form-row">
                 <textarea class="form-control" name="method" rows="5"></textarea>
             </div>
-            <div class="form-row">
-                <label for="add-file">Add the picture</label>
-                <input type="file" class="form-control-file" id="add-file" name="recipe-image"/>
+            <div class="form-row custom-file">
+                <label for="add-file" class="custom-file-label">Add the picture</label>
+                <input type="file" class="custom-file-input" id="add-file" name="recipeImage"/>
             </div>
             <button class="btn btn-primary" type="submit">Submit</button>
         </form>

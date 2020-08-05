@@ -93,16 +93,25 @@ app.get("/images/:imageId", (req, res) => {
     });
 });
 
-app.post("/add-recipe", (req, res) => {
-    const sql = `select * from recipes where id="${req.params.imageId}"`;
-    connection.query(sql, (err, data) => {
+app.get("/add-recipe", (req, res) => {
+   res.render("add-recipe");
+});
+
+app.post("/cookbook", (req, res) => {
+    const sql = "insert into recipes (name, method, time, person_num, type, image) values (?, ?, ?, ?, ?, ?)";
+    connection.query(sql, [req.body.recipeName, req.body.method, req.body.recipeTime, req.body.portions, req.body.recipeCategory, req.body.recipeImage], (err, data) => {
         if (err) throw err;
-        res.contentType("image/jpeg");
-        let buffer = Buffer.from(data[0].image, 'binary');
-        res.write(buffer);
-        res.end()
+        res.redirect("/cookbook");
     });
 });
+
+/*app.post("/cookbook", (req, res) => {
+    const sql = "insert into recipes (name, type) values (?)";
+    connection.query(sql, [req.body.recipeName], [req.body.recipeCategory], (err, data) => {
+        if (err) throw err;
+        res.redirect("/cookbook");
+    });
+});*/
 
 app.listen(PORT, () => {
     console.log("Server is listening on: http://localhost:" + PORT);
