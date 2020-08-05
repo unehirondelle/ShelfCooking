@@ -137,9 +137,7 @@ h1, h2, h3, h4, h5, h6, .font-primary {
 }
 
 .nav-toggle {
-    position: fixed;
-    right: 1vw;
-    top: 3vw;
+    float: right;
     z-index: 9998;
     border: 0;
     background: none;
@@ -702,6 +700,9 @@ section {
     padding: 30px 0;
     color: #fff;
     font-size: 14px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 #footer .copyright {

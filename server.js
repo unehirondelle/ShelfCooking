@@ -93,6 +93,17 @@ app.get("/images/:imageId", (req, res) => {
     });
 });
 
+app.post("/add-recipe", (req, res) => {
+    const sql = `select * from recipes where id="${req.params.imageId}"`;
+    connection.query(sql, (err, data) => {
+        if (err) throw err;
+        res.contentType("image/jpeg");
+        let buffer = Buffer.from(data[0].image, 'binary');
+        res.write(buffer);
+        res.end()
+    });
+});
+
 app.listen(PORT, () => {
     console.log("Server is listening on: http://localhost:" + PORT);
 });

@@ -1,0 +1,86 @@
+<div class="container">
+
+        <h1>Add new recipe</h1>
+        <h3>Please, fill out all the fields to add the new recipe to the list</h3>
+
+        <form method="post" action="/cookbook" id="newItemForm" name="newItemForm" novalidate="novalidate">
+            <div class="form-row">
+                <div>
+                    <label for="recipe-name">Recipe</label>
+                    <input type="text" class="form-control error" id="recipe-name" name="recipe-name"
+                           placeholder="Recipe's name"/>
+                    <label id="recipe-name-error" class="error" for="recipe-name">Please enter recipe's name</label>
+                </div>
+                <div>
+                    <label for="recipe-time">Time</label>
+                    <input type="text" class="form-control error" id="recipe-time" name="recipe-time"
+                           placeholder="Time"/>
+                    <label id="recipe-time-error" class="error" for="recipe-time">Please enter required time</label>
+                </div>
+                <div>
+                    <label for="person-num">Portions</label>
+                    <small class="text-muted">Up to 20</small>
+                    <input type="number" class="form-control error" id="person-num" name="person-num"
+                           min="1" max="20"/>
+                    <label id="person-num-error" class="error" for="person-num">Please enter number of portions</label>
+                </div>
+                <div>
+                    <label for="recipe-category">Category</label>
+                    <select class="custom-select error" id="recipe-category" name="recipe-category">
+                        <option value>Choose one of these options</option>
+                        <option value="breakfast">Breakfast</option>
+                        <option value="lunch">Lunch</option>
+                        <option value="dinner">Dinner</option>
+                        <option value="dessert">Dessert</option>
+                        <option value="salad">Salad</option>
+                        <option value="sauce">Sauce</option>
+                        <option value="drink">Drink</option>
+                    </select>
+                    <label id="recipe-category-error" class="error" for="person-num">Please choose category</label>
+                </div>
+            </div>
+            <h3>Ingredients:</h3>
+            <div class="form-row" id="ingredients-list">
+                <div>
+                    <label for="ingredient">Ingredient's name</label>
+                    <input type="text" class="form-control error" id="ingredient" name="ingredient"
+                           placeholder="Ingredient's name"/>
+                    <label id="ingredient-error" class="error" for="ingredient">Please enter ingredient's name</label>
+                </div>
+                <div>
+                    <label for="ingredient-qty">Quantity</label>
+                    <input type="text" class="form-control error" id="ingredient-qty" name="ingredient-qty"
+                           placeholder="Quantity"/>
+                    <label id="ingredient-error" class="error" for="ingredient">Please enter ingredient's
+                        quantity</label>
+                </div>
+                <div>
+                    <label for="ingredient-unit">Unit</label>
+                    <select class="custom-select error" id="ingredient-unit" name="ingredient-unit">
+                        <option value>Choose one of these options</option>
+                        <option value="1">cup</option>
+                        <option value="2">tsp</option>
+                        <option value="3">tbsp</option>
+                        <option value="4">gr</option>
+                        <option value="5">ml</option>
+                        <option value="6">pinch</option>
+                        <option value="7">handful</option>
+                        <option value="8">slice</option>
+                        <option value="9">ea</option>
+                    </select>
+                    <label id="ingredient-unit-error" class="error" for="ingredient-unit">Please choose measurement unit</label>
+                </div>
+                <button class="btn btn-primary" type="button" id="add-ingredient">+</button>
+            </div>
+            <h3>Method:</h3>
+            <div class="form-row">
+                <textarea class="form-control" name="method" rows="5"></textarea>
+            </div>
+            <div class="form-row">
+                <label for="add-file">Add the picture</label>
+                <input type="file" class="form-control-file" id="add-file" name="recipe-image"/>
+            </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+
+    </div>
