@@ -1,0 +1,50 @@
+{{> header}}
+
+<main id="main">
+
+    <section id="cookbook" class="cookbook section-bg">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <h1>CookBook <a href="#" class="plus-circle"><i class="bx bx-plus-circle"></i></a></h1>
+                </div>
+                <div class="col-lg-6 pt-4 pt-lg-0">
+                    {{#each type}}
+                        <h3 class="button cookbook-item"><a href="/cookbook/{{type}}">{{type}}</a></h3>
+                    {{/each}}
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="inventory" class="inventory section-bg">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <h1>Inventory <a href="#" class="plus-circle"><i class="bx bx-plus-circle"></i></a></h1>
+                </div>
+                <div class="col-lg-6 pt-4 pt-lg-0">
+                    <h3 class="button cookbook-item">Pantry</h3>
+                    <h3 class="button cookbook-item">Fridge</h3>
+                    <h3 class="button cookbook-item">Freezer</h3>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<footer id="footer">
+    <div class="container">
+        <div class="copyright">
+            Irina Plaksina. 2020
+        </div>
+        <div class="credits">
+            Based on <strong><span>Siimple</span></strong> by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        </div>
+    </div>
+</footer>

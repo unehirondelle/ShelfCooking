@@ -7,12 +7,12 @@
 
             <div class="row">
                 <div class="col-lg-6">
-                    <h1>CookBook <a href="#" class="plus-circle"><i class="bx bx-plus-circle"></i></a></h1>
-                    <h3>Breakfast</h3>
+                    <h1><a href="/cookbook">CookBook</a> <a href="#" class="plus-circle"><i class="bx bx-plus-circle"></i></a></h1>
+                    <h3>{{type.type}}</h3>
                 </div>
             </div>
             <div class="row">
-                {{#each recipes}}
+                {{#each recipe}}
                     <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
                         <div class="card">
                             <img src="/images/{{id}}" class="card-img-top" alt="{{name}} picture">
@@ -20,7 +20,7 @@
                                 <h6><i class="bx bx-time"></i> {{time}} <i class="bx bx-face"></i>{{person_num}}</h6>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title"><a href="/recipes/{{id}}">{{name}}</a></h5>
+                                <h5 class="card-title"><a href="/cookbook/recipes/{{name}}">{{name}}</a></h5>
                             </div>
                         </div>
                     </div>

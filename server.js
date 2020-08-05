@@ -47,21 +47,37 @@ connection.connect((err) => {
 });
 
 app.get("/", (req, res) => {
-    const sql_rec = "select * from recipes;"
+    const sql_rec = "select distinct (type) from recipes;"
     connection.query(sql_rec, (err, data) => {
         if (err) throw err;
-        res.render("recipes", {recipes: data});
+        res.render("index", {type: data});
     });
 });
 
-app.get("/recipes/:recipeId", (req, res) => {
-    const sql_route = `select * from recipes where id="${req.params.recipeId}"`;
+app.get("/cookbook", (req, res) => {
+    const sql_rec = "select distinct (type) from recipes;"
+    connection.query(sql_rec, (err, data) => {
+        if (err) throw err;
+        res.render("index", {type: data});
+    });
+});
+
+app.get("/cookbook/:recipeType", (req, res) => {
+    const sql_rec = `select * from recipes where type="${req.params.recipeType}"`;
+    connection.query(sql_rec, (err, data) => {
+        if (err) throw err;
+        res.render("recipes", {recipe: data, type: data[0]});
+    });
+});
+
+app.get("/cookbook/recipes/:recipeName", (req, res) => {
+    const sql_route = `select * from recipes where name="${req.params.recipeName}"`;
     connection.query(sql_route, (err, data_route) => {
         if (err) throw err;
         const sql_ingr = "select ri.recipe_id, i.name as 'name', ri.measurement_qty as 'amount', mu.name as 'unit' from recipe_ingredients ri join ingredients i on i.id = ri.ingredient_id left outer join measurement_units mu on mu.id = measurement_id where recipe_id = 1;"
         connection.query(sql_ingr, (err, data_ingr) => {
             if (err) throw err;
-            res.render("recipe-id", {recipe: data_route[0], ingredients: data_ingr});
+            res.render("recipe-name", {recipe: data_route[0], ingredients: data_ingr});
         });
     });
 });
