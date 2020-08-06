@@ -5,8 +5,29 @@ require('dotenv').config();
 const path = require("path");
 const fs = require("fs");
 const multer = require("multer");
-// const upload = multer({dest: 'uploads/'});
+const dir = path.join(__dirname, 'public');
+const upload = multer({dest: path.join(dir, 'img/uploads/')});
 // const exprflupld = require("express-fileupload");
+
+const app = express();
+
+const PORT = process.env.PORT || 3010;
+
+
+
+app.use(express.static(dir));
+
+app.use(express.urlencoded({extended: true}));
+
+app.use(express.json());
+
+/*app.use(exprflupld({
+    limits: {fileSize: 50 * 1024 * 1024},
+}));*/
+
+app.engine("handlebars", exprhnlbs({defaultLayout: "main"}));
+
+app.set("view engine", "handlebars");
 
 const imageFilter = (req, recipeImage, cb) => {
     if (recipeImage.mimetype.startsWith("image")) {
@@ -18,69 +39,14 @@ const imageFilter = (req, recipeImage, cb) => {
 
 let storage = multer.diskStorage({
     destination: (req, recipeImage, cb) => {
-        cb(null, __dirname + "/public/img/uploads/");
+        cb(null, path.join(dir, "img/uploads/"));
     },
     filename: (req, recipeImage, cb) => {
         cb(null, `${recipeImage.originalname}`);
     },
 });
 
-let uploadFile = multer({storage: storage, fileFilter: imageFilter});
-// module.exports = uploadFile;
-
-const app = express();
-
-const PORT = process.env.PORT || 3010;
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-//middleware to transform the request so the data that was sent on req.body could be read
-app.use(express.urlencoded({extended: true}));
-
-//parses incoming requests with JSON payloads and is based on body-parser
-//returns middleware that only parses JSON and only looks at requests where the Content-Type header matches the type option.
-app.use(express.json());
-
-/*app.use(exprflupld({
-    limits: {fileSize: 50 * 1024 * 1024},
-}));*/
-
-//firstArg: tells Express that the template engine will be responsible for all files with the handlebars extension
-//secondArg: directs the templating engine to defaultLayout; handlebars will look inside of our layouts directory
-app.engine("handlebars", exprhnlbs({defaultLayout: "main"}));
-
-//firstArg: lets express know the view engine is set
-//secondArg: sets the view engine as a handlebars
-app.set("view engine", "handlebars");
-
-const uploadFiles = async (req, res) => {
-    try {
-        console.log(req.recipeImage);
-
-        if (req.recipeImage == undefined) {
-            return res.send(`You must select a file.`);
-        }
-
-        Image.create({
-            // type: req.file.mimetype,
-            // name: req.file.originalname,
-            data: fs.readFileSync(
-                __basedir + "/resources/static/assets/uploads/" + req.recipeImage.filename
-            ),
-        }).then((image) => {
-            console.log
-            fs.writeFileSync(
-                __basedir + "/resources/static/assets/tmp/" + image.name,
-                image.data
-            );
-
-            return res.send(`File has been uploaded.`);
-        });
-    } catch (error) {
-        console.log(error);
-        return res.send(`Error when trying upload images: ${error}`);
-    }
-};
+let uploadFile = multer({dest: upload, storage: storage, fileFilter: imageFilter});
 
 let connection;
 
@@ -175,14 +141,14 @@ app.post("/cookbook", uploadFile.single('recipeImage'), (req, res) => {
 });*/
 
 
-app.post("/cookbook", (req, res) => {
+/*app.post("/cookbook", (req, res) => {
     const sql = "insert into recipes (name, method, time, person_num, type, image) values (?, ?, ?, ?, ?, ?)";
     connection.query(sql, [req.body.recipeName, req.body.method, req.body.recipeTime, req.body.portions, req.body.recipeCategory, req.body.recipeImage], (err, data) => {
         if (err) throw err;
         console.log("file: ", req.files.recipeImage);
         res.redirect("/cookbook");
     });
-});
+});*/
 
 
 app.listen(PORT, () => {
