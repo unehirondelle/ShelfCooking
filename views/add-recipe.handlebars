@@ -1,9 +1,12 @@
-<div class="container">
+<main id="main">
+
+    <div class="container">
 
         <h1>Add new recipe</h1>
         <h3>Please, fill out all the fields to add the new recipe to the list</h3>
 
-        <form method="post" action="/cookbook" enctype="multipart/form-data" id="newItemForm" name="newItemForm" novalidate="novalidate">
+        <form method="post" action="/cookbook" enctype="multipart/form-data" id="newItemForm" name="newItemForm"
+              novalidate="novalidate">
             <div class="form-row">
                 <div>
                     <label for="recipe-name">Recipe</label>
@@ -28,64 +31,71 @@
                     <label for="recipe-category">Category</label>
                     <select class="custom-select error" id="recipe-category" name="recipeCategory">
                         <option value>Choose one of these options</option>
-                        <option value="breakfast">Breakfast</option>
-                        <option value="lunch">Lunch</option>
-                        <option value="dinner">Dinner</option>
-                        <option value="dessert">Dessert</option>
-                        <option value="salad">Salad</option>
-                        <option value="sauce">Sauce</option>
-                        <option value="drink">Drink</option>
+                        <option value="Breakfast">Breakfast</option>
+                        <option value="Bunch">Lunch</option>
+                        <option value="Dinner">Dinner</option>
+                        <option value="Dessert">Dessert</option>
+                        <option value="Salad">Salad</option>
+                        <option value="Sauce">Sauce</option>
+                        <option value="Drink">Drink</option>
                     </select>
                     <label id="recipe-category-error" class="error" for="person-num">Please choose category</label>
                 </div>
             </div>
             <h3>Ingredients:</h3>
+            <button class="btn btn-primary" type="button" id="add-ingredient">Add Ingredient</button>
             <div class="form-row" id="ingredients-list">
-                <div>
-                    <label for="ingredient">Ingredient's name</label>
-                    <select class="custom-select error" id="ingredient" name="ingredient">
-                        <option value>Choose one of these options</option>
-                        <option value="1">Bread</option>
-                        <option value="2">Milk</option>
-                        <option value="3">All-Purpose flour</option>
-                        <option value="4">Butter</option>
-                        <option value="5">Eggs</option>
-                        <option value="6">Ham</option>
-                        <option value="7">Bay Leaf</option>
-                        <option value="8">Nutmeg</option>
-                        <option value="9">Salt</option>
-                        <option value="10">Herbs</option>
-                        <option value="11">Classic Rolled Oatmeal</option>
-                        <option value="12">Water</option>
-                        <option value="13">Ground Cinnamon</option>
-                        <option value="14">Fruits</option>
-                    </select>
-                    <label id="ingredient-error" class="error" for="ingredient">Please enter ingredient's name</label>
+                <div class="col-12" id="ingredient-item">
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="ingredient">Ingredient's name</label>
+                            <select class="custom-select error" id="ingredient" name="ingredient">
+                                <option value>Choose one of these options</option>
+                                <option value="1">Bread</option>
+                                <option value="2">Milk</option>
+                                <option value="3">All-Purpose flour</option>
+                                <option value="4">Butter</option>
+                                <option value="5">Eggs</option>
+                                <option value="6">Ham</option>
+                                <option value="7">Bay Leaf</option>
+                                <option value="8">Nutmeg</option>
+                                <option value="9">Salt</option>
+                                <option value="10">Herbs</option>
+                                <option value="11">Classic Rolled Oatmeal</option>
+                                <option value="12">Water</option>
+                                <option value="13">Ground Cinnamon</option>
+                                <option value="14">Fruits</option>
+                            </select>
+                            <label id="ingredient-error" class="error" for="ingredient">Please enter ingredient's
+                                name</label>
+                        </div>
+                        <div class="col-3">
+                            <label for="ingredient-qty">Quantity</label>
+                            <input type="text" class="form-control error" id="ingredient-qty" name="ingredientQty"
+                                   placeholder="Quantity"/>
+                            <label id="ingredient-qty-error" class="error" for="ingredient">Please enter ingredient's
+                                quantity</label>
+                        </div>
+                        <div class="col-3">
+                            <label for="ingredient-unit">Unit</label>
+                            <select class="custom-select error" id="ingredient-unit" name="ingredientUnit">
+                                <option value>Choose one of these options</option>
+                                <option value="1">cup</option>
+                                <option value="2">tsp</option>
+                                <option value="3">tbsp</option>
+                                <option value="4">gr</option>
+                                <option value="5">ml</option>
+                                <option value="6">pinch</option>
+                                <option value="7">handful</option>
+                                <option value="8">slice</option>
+                                <option value="9">ea</option>
+                            </select>
+                            <label id="ingredient-unit-error" class="error" for="ingredient-unit">Please choose
+                                measurement
+                                unit</label>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label for="ingredient-qty">Quantity</label>
-                    <input type="text" class="form-control error" id="ingredient-qty" name="ingredientQty"
-                           placeholder="Quantity"/>
-                    <label id="ingredient-qty-error" class="error" for="ingredient">Please enter ingredient's
-                        quantity</label>
-                </div>
-                <div>
-                    <label for="ingredient-unit">Unit</label>
-                    <select class="custom-select error" id="ingredient-unit" name="ingredientUnit">
-                        <option value>Choose one of these options</option>
-                        <option value="1">cup</option>
-                        <option value="2">tsp</option>
-                        <option value="3">tbsp</option>
-                        <option value="4">gr</option>
-                        <option value="5">ml</option>
-                        <option value="6">pinch</option>
-                        <option value="7">handful</option>
-                        <option value="8">slice</option>
-                        <option value="9">ea</option>
-                    </select>
-                    <label id="ingredient-unit-error" class="error" for="ingredient-unit">Please choose measurement unit</label>
-                </div>
-                <button class="btn btn-primary" type="button" id="add-ingredient">+</button>
             </div>
             <h3>Method:</h3>
             <div class="form-row">
@@ -99,3 +109,5 @@
         </form>
 
     </div>
+
+</main>

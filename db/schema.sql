@@ -5,10 +5,12 @@ use recipes_db;
 create table recipes
 (
     id         int auto_increment primary key,
-    name       varchar(50)    not null,
-    method     varchar(10000) not null,
+    name       varchar(50),
+    method     varchar(10000),
     time       varchar(10),
-    person_num int
+    person_num int,
+    type varchar(30),
+    image longblob
 );
 
 create table measurement_units
