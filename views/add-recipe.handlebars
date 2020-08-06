@@ -3,7 +3,7 @@
         <h1>Add new recipe</h1>
         <h3>Please, fill out all the fields to add the new recipe to the list</h3>
 
-        <form method="post" action="/cookbook" id="newItemForm" name="newItemForm" novalidate="novalidate">
+        <form method="post" action="/cookbook" enctype="multipart/form-data" id="newItemForm" name="newItemForm" novalidate="novalidate">
             <div class="form-row">
                 <div>
                     <label for="recipe-name">Recipe</label>
@@ -92,8 +92,8 @@
                 <textarea class="form-control" name="method" rows="5"></textarea>
             </div>
             <div class="form-row custom-file">
-                <label for="add-file" class="custom-file-label">Add the picture</label>
-                <input type="file" class="custom-file-input" id="add-file" name="recipeImage"/>
+                <label for="recipeImage" class="custom-file-label">Add the picture</label>
+                <input type="file" class="custom-file-input" accept="image/*" id="recipeImage" name="recipeImage"/>
             </div>
             <button class="btn btn-primary" type="submit">Submit</button>
         </form>
