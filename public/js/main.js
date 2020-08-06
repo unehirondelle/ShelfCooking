@@ -52,7 +52,7 @@
     });
 
     $(document).on('click', '#add-ingredient', () => {
-        $("#ingredient-item").clone().appendTo('#ingredients-list');
+        $("#ingredient-item").clone().appendTo('#ingredients-list').find("#ingredient-qty").val("");
     });
 
 })(jQuery);
