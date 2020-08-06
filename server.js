@@ -134,8 +134,8 @@ app.get("/add-recipe", (req, res) => {
 });*/
 
 app.post("/cookbook", (req, res) => {
-    const sql_recipe = "insert into recipes (name, method, time, person_num, type, image) values (?, ?, ?, ?, ?, ?)";
-    connection.query(sql_recipe, [req.body.recipeName, req.body.method, req.body.recipeTime, req.body.portions, req.body.recipeCategory, req.files.recipeImage.data], (err, data) => {
+    const sql_recipe = "insert into recipes (name, method, time, person_num, type, image, utensils) values (?, ?, ?, ?, ?, ?, ?)";
+    connection.query(sql_recipe, [req.body.recipeName, req.body.method, req.body.recipeTime, req.body.portions, req.body.recipeCategory, req.files.recipeImage.data, req.body.utensils], (err, data) => {
         if (err) throw err;
         console.log(data.insertId);
         for (let i = 0; i < req.body.ingredient.length; i++) {
