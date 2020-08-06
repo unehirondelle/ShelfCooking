@@ -3,17 +3,15 @@ const exprhnlbs = require("express-handlebars");
 const mysql = require("mysql");
 require('dotenv').config();
 const path = require("path");
-const fs = require("fs");
-const multer = require("multer");
 const dir = path.join(__dirname, 'public');
-const upload = multer({dest: path.join(dir, 'img/uploads/')});
-// const exprflupld = require("express-fileupload");
+const fs = require("fs");
+/*const multer = require("multer");
+const upload = multer({dest: path.join(dir, 'img/uploads/')});*/
+const exprflupld = require("express-fileupload");
 
 const app = express();
 
 const PORT = process.env.PORT || 3010;
-
-
 
 app.use(express.static(dir));
 
@@ -21,15 +19,15 @@ app.use(express.urlencoded({extended: true}));
 
 app.use(express.json());
 
-/*app.use(exprflupld({
+app.use(exprflupld({
     limits: {fileSize: 50 * 1024 * 1024},
-}));*/
+}));
 
 app.engine("handlebars", exprhnlbs({defaultLayout: "main"}));
 
 app.set("view engine", "handlebars");
 
-const imageFilter = (req, recipeImage, cb) => {
+/*const imageFilter = (req, recipeImage, cb) => {
     if (recipeImage.mimetype.startsWith("image")) {
         cb(null, true);
     } else {
@@ -46,7 +44,7 @@ let storage = multer.diskStorage({
     },
 });
 
-let uploadFile = multer({dest: upload, storage: storage, fileFilter: imageFilter});
+let uploadFile = multer({dest: upload, storage: storage, fileFilter: imageFilter});*/
 
 let connection;
 
@@ -121,7 +119,7 @@ app.get("/add-recipe", (req, res) => {
     res.render("add-recipe");
 });
 
-app.post("/cookbook", uploadFile.single('recipeImage'), (req, res) => {
+/*app.post("/cookbook", uploadFile.single('recipeImage'), (req, res) => {
     const sql = "insert into recipes (name, method, time, person_num, type, image) values (?, ?, ?, ?, ?, ?)";
     let image = fs.readFileSync(
         __dirname + "/public/img/uploads/" + req.file.filename
@@ -133,22 +131,16 @@ app.post("/cookbook", uploadFile.single('recipeImage'), (req, res) => {
         console.log("imageField:", req.body.image);
         res.redirect("/cookbook");
     });
-});
-
-/*app.post('/cookbook', function (req, res) {
-    console.log(req.files.recipeImage); // the uploaded file object
-    res.redirect("/");
 });*/
 
-
-/*app.post("/cookbook", (req, res) => {
+app.post("/cookbook", (req, res) => {
     const sql = "insert into recipes (name, method, time, person_num, type, image) values (?, ?, ?, ?, ?, ?)";
-    connection.query(sql, [req.body.recipeName, req.body.method, req.body.recipeTime, req.body.portions, req.body.recipeCategory, req.body.recipeImage], (err, data) => {
+    connection.query(sql, [req.body.recipeName, req.body.method, req.body.recipeTime, req.body.portions, req.body.recipeCategory, req.files.recipeImage.data], (err, data) => {
         if (err) throw err;
-        console.log("file: ", req.files.recipeImage);
+        console.log("file: ", req.files.recipeImage.data);
         res.redirect("/cookbook");
     });
-});*/
+});
 
 
 app.listen(PORT, () => {
