@@ -68,84 +68,85 @@ connection.connect((err) => {
     console.log(`connection as id ${connection.threadId}`);
 });
 
-    app.get("/", (req, res) => {
-        const sql_rec = "select distinct (type) from recipes;"
-        connection.query(sql_rec, (err, data) => {
+app.get("/", (req, res) => {
+    const sql_rec = "select distinct (type) from recipes;"
+    connection.query(sql_rec, (err, data) => {
+        if (err) throw err;
+        res.render("index", {type: data});
+    });
+});
+
+app.get("/cookbook", (req, res) => {
+    const sql_rec = "select distinct (type) from recipes;"
+    connection.query(sql_rec, (err, data) => {
+        if (err) throw err;
+        res.render("index", {type: data});
+    });
+});
+
+app.get("/cookbook/:recipeType", (req, res) => {
+    const sql_rec = `select * from recipes where type="${req.params.recipeType}"`;
+    connection.query(sql_rec, (err, data) => {
+        if (err) throw err;
+        res.render("recipes", {recipe: data, type: data[0]});
+    });
+});
+
+app.get("/cookbook/recipes/:recipeName", (req, res) => {
+    const sql_route = `select * from recipes where name="${req.params.recipeName}"`;
+    connection.query(sql_route, (err, data_route) => {
+        if (err) throw err;
+        const sql_ingr = `select ri.recipe_id, i.name as 'name', ri.measurement_qty as 'amount', mu.name as 'unit' from recipe_ingredients ri join ingredients i on i.id = ri.ingredient_id left outer join measurement_units mu on mu.id = measurement_id where recipe_id = "${data_route[0].id}";`
+        connection.query(sql_ingr, (err, data_ingr) => {
             if (err) throw err;
-            res.render("index", {type: data});
+            res.render("recipe-name", {recipe: data_route[0], ingredients: data_ingr});
         });
     });
+});
 
-    app.get("/cookbook", (req, res) => {
-        const sql_rec = "select distinct (type) from recipes;"
-        connection.query(sql_rec, (err, data) => {
-            if (err) throw err;
-            res.render("index", {type: data});
-        });
+app.get("/images/:imageId", (req, res) => {
+    const sql = `select * from recipes where id="${req.params.imageId}"`;
+    connection.query(sql, (err, data) => {
+        if (err) throw err;
+        res.contentType("image/jpeg");
+        let buffer = Buffer.from(data[0].image, 'binary');
+        res.write(buffer);
+        res.end()
     });
+});
 
-    app.get("/cookbook/:recipeType", (req, res) => {
-        const sql_rec = `select * from recipes where type="${req.params.recipeType}"`;
-        connection.query(sql_rec, (err, data) => {
-            if (err) throw err;
-            res.render("recipes", {recipe: data, type: data[0]});
-        });
-    });
+app.get("/add-recipe", (req, res) => {
+    res.render("add-recipe");
+});
 
-    app.get("/cookbook/recipes/:recipeName", (req, res) => {
-        const sql_route = `select * from recipes where name="${req.params.recipeName}"`;
-        connection.query(sql_route, (err, data_route) => {
-            if (err) throw err;
-            const sql_ingr = `select ri.recipe_id, i.name as 'name', ri.measurement_qty as 'amount', mu.name as 'unit' from recipe_ingredients ri join ingredients i on i.id = ri.ingredient_id left outer join measurement_units mu on mu.id = measurement_id where recipe_id = "${data_route[0].id}";`
-            connection.query(sql_ingr, (err, data_ingr) => {
-                if (err) throw err;
-                res.render("recipe-name", {recipe: data_route[0], ingredients: data_ingr});
-            });
-        });
-    });
-
-    app.get("/images/:imageId", (req, res) => {
-        const sql = `select * from recipes where id="${req.params.imageId}"`;
-        connection.query(sql, (err, data) => {
-            if (err) throw err;
-            res.contentType("image/jpeg");
-            let buffer = Buffer.from(data[0].image, 'binary');
-            res.write(buffer);
-            res.end()
-        });
-    });
-
-    app.get("/add-recipe", (req, res) => {
-        res.render("add-recipe");
-    });
-
-    /*app.post("/cookbook", uploadFile.single('recipeImage'), (req, res) => {
-        const sql = "insert into recipes (name, method, time, person_num, type, image) values (?, ?, ?, ?, ?, ?)";
-        let image = fs.readFileSync(
-            __dirname + "/public/img/uploads/" + req.file.filename
-        );
-        connection.query(sql, [req.body.recipeName, req.body.method, req.body.recipeTime, req.body.portions, req.body.recipeCategory, image], (err, data) => {
-            if (err) throw err;
-            console.log("file:", req.recipeImage);
-            console.log("image:", image);
-            console.log("imageField:", req.body.image);
-            res.redirect("/cookbook");
-        });
-    });*/
-
-    app.post("/cookbook", (req, res) => {
-        const sql_recipe = "insert into recipes (name, method, time, person_num, type, image) values (?, ?, ?, ?, ?, ?)";
-        connection.query(sql_recipe, [req.body.recipeName, req.body.method, req.body.recipeTime, req.body.portions, req.body.recipeCategory, req.files.recipeImage.data], (err, data) => {
-            if (err) throw err;
-            console.log(data.insertId);
-            const sql_ingr = `insert into recipe_ingredients (recipe_id, ingredient_id, measurement_qty, measurement_id) values ("${data.insertId}", ?, ?, ?)`;
-            connection.query(sql_ingr, [req.body.ingredient, req.body.ingredientQty, req.body.ingredientUnit], (err, data_ingr) => {
-                if (err) throw err;
-
-            });
-        });
+/*app.post("/cookbook", uploadFile.single('recipeImage'), (req, res) => {
+    const sql = "insert into recipes (name, method, time, person_num, type, image) values (?, ?, ?, ?, ?, ?)";
+    let image = fs.readFileSync(
+        __dirname + "/public/img/uploads/" + req.file.filename
+    );
+    connection.query(sql, [req.body.recipeName, req.body.method, req.body.recipeTime, req.body.portions, req.body.recipeCategory, image], (err, data) => {
+        if (err) throw err;
+        console.log("file:", req.recipeImage);
+        console.log("image:", image);
+        console.log("imageField:", req.body.image);
         res.redirect("/cookbook");
     });
+});*/
+
+app.post("/cookbook", (req, res) => {
+    const sql_recipe = "insert into recipes (name, method, time, person_num, type, image) values (?, ?, ?, ?, ?, ?)";
+    connection.query(sql_recipe, [req.body.recipeName, req.body.method, req.body.recipeTime, req.body.portions, req.body.recipeCategory, req.files.recipeImage.data], (err, data) => {
+        if (err) throw err;
+        console.log(data.insertId);
+        for (let i = 0; i < req.body.ingredient.length; i++) {
+            const sql_ingr = `insert into recipe_ingredients (recipe_id, ingredient_id, measurement_qty, measurement_id) values ("${data.insertId}", ?, ?, ?)`;
+            connection.query(sql_ingr, [req.body.ingredient[i], req.body.ingredientQty[i], req.body.ingredientUnit[i]], (err, data_ingr) => {
+                if (err) throw err;
+            });
+        }
+    });
+    res.redirect("/cookbook");
+});
 
 app.listen(PORT, () => {
     console.log("Server is listening on: http://localhost:" + PORT);
