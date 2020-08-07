@@ -64,6 +64,10 @@ h1, h2, h3, h4, h5, h6, .font-primary {
     max-height: 40px;
 }
 
+.logout {
+    float: right;
+}
+
 @media (max-width: 768px) {
     #header .logo h1 {
         font-size: 28px;

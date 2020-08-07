@@ -9,10 +9,11 @@ const fs = require("fs");
 /*const multer = require("multer");
 const upload = multer({dest: path.join(dir, 'img/uploads/')});*/
 const exprflupld = require("express-fileupload");
-const bcrypt = require("bcrypt");
-const passport = require("passport");
-const flash = require("express-flash");
-const session = require("express-session");
+const bcrypt = require("bcrypt"); //encrypts password
+const passport = require("passport"); //user authentication
+const flash = require("express-flash"); //send messages for passport issues
+const session = require("express-session"); //create a session with its ID that is stored server-side
+const methodOverride = require("method-override"); //to override post method with delete
 
 const PORT = process.env.PORT || 3010;
 
@@ -39,8 +40,8 @@ app.use(session({
 }));
 
 app.use(passport.initialize());
-
 app.use(passport.session());
+app.use(methodOverride("_method")); //_method is how it will be called
 
 app.use(express.json());
 
@@ -135,6 +136,11 @@ app.post("/signup", checkNotAuthenticated, async (req, res) => {
         res.redirect("/signup");
     }
     console.log(users);
+});
+
+app.delete("/logout", (req, res) => {
+    req.logOut(); //built-in into passport
+    res.redirect("/login");
 });
 
 app.get("/cookbook", (req, res) => {
