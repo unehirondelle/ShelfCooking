@@ -93,7 +93,7 @@ connection.connect((err) => {
     console.log(`connection as id ${connection.threadId}`);
 });
 
-app.get("/", (req, res) => {
+app.get("/", checkAuthenticated, (req, res) => {
     const sql_rec = "select distinct (type) from recipes;"
     connection.query(sql_rec, (err, data) => {
         if (err) throw err;
@@ -103,26 +103,25 @@ app.get("/", (req, res) => {
 
 });
 
-/*app.get("/", (req, res) => {
+/*app.get("/", checkAuthenticated, (req, res) => {
     res.render("index", {username: req.user.username});
-
 });*/
 
-app.get("/login", (req, res) => {
+app.get("/login", checkNotAuthenticated, (req, res) => {
     res.render("login");
 });
 
-app.post("/login", passport.authenticate("local", {
+app.post("/login", checkNotAuthenticated, passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login",
     failureFlash: true
 }));
 
-app.get("/signup", (req, res) => {
+app.get("/signup", checkNotAuthenticated, (req, res) => {
     res.render("signup");
 });
 
-app.post("/signup", async (req, res) => {
+app.post("/signup", checkNotAuthenticated, async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10); //create a hashed pswd, generated 10 times for security reasons
         users.push({
@@ -209,6 +208,20 @@ app.post("/cookbook", (req, res) => {
     });
     res.redirect("/cookbook");
 });
+
+function checkAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect("/login");
+}
+
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return res.redirect("/");
+    }
+    next();
+}
 
 app.listen(PORT, () => {
     console.log("Server is listening on: http://localhost:" + PORT);
