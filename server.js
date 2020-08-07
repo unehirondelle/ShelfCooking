@@ -58,23 +58,21 @@ function initialize(passport) {
         });
     });
 
-    passport.use("local-signup", new LocalStrategy({
-            usernameField: "email",
-            passwordField: "password",
-            passReqToCallback: true
+    /*passport.use("local-signup", new LocalStrategy({
+            usernameField: "email"
         }, async (req, email, password, done) => {
-            const hashedPassword = await bcrypt.hash(req.body.password, 10);
-            connection.query(`select * from users where email = "${email}"`, (err, data) => {
-                console.log("data: ", data);
+            // const hashedPassword = await bcrypt.hash(req.body.password, 10);
+            connection.query("select * from users where email = ?", [email], (err, data) => {
+                console.log("loc-sign: ", data);
                 try {
                     if (data.length) {
                         return done(null, false, {message: "The email is already taken"});
                     } else {
-                        /* const newUser = new Object();
+                        /!* const newUser = new Object();
                          newUser.id = Date.now().toString();
                          newUser.username = req.body.username;
                          newUser.email = req.body.email;
-                         newUser.password = hashedPassword;*/
+                         newUser.password = hashedPassword;*!/
 
                         const sql_newUser = `insert into users (id, username, email, password) values ("${Date.now().toString()}", "${req.body.username}", "${req.body.email}", "${hashedPassword}"`;
                         connection.query(sql_newUser, (err, data) => {
@@ -88,13 +86,13 @@ function initialize(passport) {
                 }
             });
         }
-    ));
+    ));*/
 
     passport.use("local-login", new LocalStrategy({
             usernameField: "email"
         }, (email, password, done) => {
             connection.query("select * from users where email = ?", [email], async (err, data) => {
-                console.log("loc-log data: ", data);
+                // console.log("loc-log data: ", data);
                 if (!data.length) {
                     return done(null, false, {message: "No user with that email"});
                 }
@@ -215,35 +213,35 @@ app.get("/signup", checkNotAuthenticated, (req, res) => {
     res.render("signup");
 });
 
-app.post("/signup", checkNotAuthenticated, passport.authenticate("local-signup", {
+/*app.post("/signup", checkNotAuthenticated, passport.authenticate("local-signup", {
     successRedirect: "/",
     failureRedirect: "/signup",
     failureFlash: true
-}));
+}));*/
 
 
-/*
 app.post("/signup", checkNotAuthenticated, async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10); //create a hashed pswd, generated 10 times for security reasons
-        const sql = `insert into users (id, username, email, password) values ("${Date.now().toString()}", ?, ?, "${hashedPassword}")`;
-        connection.query(sql, [req.body.username, req.body.email], (err, data) => {
-            console.log(data);
-            console.log(req.body);
+        const sql_email = `select * from users where email = "${req.body.email}"`;
+        connection.query(sql_email, (err, data) => {
+            console.log("checkemail: ", data);
             if (err) throw err;
-        });
-        /!*users.push({
-            id: Date.now().toString(),
-            username: req.body.username,
-            email: req.body.email,
-            password: hashedPassword
-        });*!/
+            if (data.length === 0) {
+                console.log("new_query:", req.body);
+                const sql = `insert into users (id, username, email, password) values ("${Date.now().toString()}", ?, ?, "${hashedPassword}")`;
+                connection.query(sql, [req.body.username, req.body.email], (err, data) => {
+                    console.log("addUser: ", data);
+                    console.log(req.body);
+                    if (err) throw err;
+                });
+            }
+        })
         res.redirect("/login");
     } catch {
         res.redirect("/signup");
     }
 });
-*/
 
 app.delete("/logout", (req, res) => {
     req.logOut(); //built-in into passport
