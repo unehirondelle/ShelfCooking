@@ -11,18 +11,134 @@ const upload = multer({dest: path.join(dir, 'img/uploads/')});*/
 const exprflupld = require("express-fileupload");
 const bcrypt = require("bcrypt"); //encrypts password
 const passport = require("passport"); //user authentication
+
+const LocalStrategy = require("passport-local").Strategy;
+
 const flash = require("express-flash"); //send messages for passport issues
 const session = require("express-session"); //create a session with its ID that is stored server-side
 const methodOverride = require("method-override"); //to override post method with delete
 
 const PORT = process.env.PORT || 3010;
 
-const initializePassport = require("./passport-config");
+let connection;
+
+if (process.env.JAWSDB_URL) {
+    connection = mysql.createConnection(process.env.JAWSDB_URL)
+} else {
+    connection = mysql.createConnection({
+        host: "localhost",
+        port: 3306,
+        user: "root",
+        password: process.env.DB_PASSWORD,
+        database: "recipes_db"
+    });
+}
+
+connection.connect((err) => {
+    if (err) {
+        console.error(`error connecting: ${err.stack}`);
+        return;
+    }
+    console.log(`connection as id ${connection.threadId}`);
+});
+
+// const initializePassport = require("./passport-config");
+
+function initialize(passport) {
+    passport.serializeUser((user, done) => {
+        console.log("serializeUser: ", user);
+        done(null, user);
+    });
+
+    passport.deserializeUser((user, done) => {
+        console.log("deserializeUser: ", user);
+        connection.query("select * from users where email = ?", [user], (err, rows) => {
+            console.log("deSer result: ", rows);
+            done(err, rows[0].id);
+        });
+    });
+
+    passport.use("local-signup", new LocalStrategy({
+            usernameField: "email",
+            passwordField: "password",
+            passReqToCallback: true
+        }, async (req, email, password, done) => {
+            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+            connection.query(`select * from users where email = "${email}"`, (err, data) => {
+                console.log("data: ", data);
+                try {
+                    if (data.length) {
+                        return done(null, false, {message: "The email is already taken"});
+                    } else {
+                        /* const newUser = new Object();
+                         newUser.id = Date.now().toString();
+                         newUser.username = req.body.username;
+                         newUser.email = req.body.email;
+                         newUser.password = hashedPassword;*/
+
+                        const sql_newUser = `insert into users (id, username, email, password) values ("${Date.now().toString()}", "${req.body.username}", "${req.body.email}", "${hashedPassword}"`;
+                        connection.query(sql_newUser, (err, data) => {
+                            console.log("SQL: ", sql_newUser);
+                            console.log("newUser: ", data);
+                            return done(null, data);
+                        });
+                    }
+                } catch (err) {
+                    return done(err);
+                }
+            });
+        }
+    ));
+
+    passport.use("local-login", new LocalStrategy({
+            usernameField: "email"
+        }, (email, password, done) => {
+            connection.query("select * from users where email = ?", [email], async (err, data) => {
+                console.log("loc-log data: ", data);
+                if (!data.length) {
+                    return done(null, false, {message: "No user with that email"});
+                }
+                try {
+                    if (await bcrypt.compare(password, data[0].password)) {
+                        return done(null, data[0].email);
+                    } else {
+                        return done(null, false, {message: "Password incorrect"});
+                    }
+                } catch (err) {
+                    return done(err);
+                }
+            });
+        }
+    ));
+
+
+    /*const authenticateUser = async (email, password, done) => {
+        const user = getUserByEmail(email);
+        if (user == null) {
+            return done(null, false, {message: "No user with that email"});
+        }
+
+        try {
+            if (await bcrypt.compare(password, user.password)) {
+                return done(null, user);
+            } else {
+                return done(null, false, {message: "Password incorrect"});
+            }
+        } catch (err) {
+            return done(err);
+        }
+    }*/
+
+}
+
+initialize(passport);
+/*
 initializePassport(passport,
     email => users.find(user => user.email === email),
     id => users.find(user => user.id === id));
+*/
 
-const users = [];
+// const users = [];
 
 
 const app = express();
@@ -32,13 +148,11 @@ app.use(express.static(dir));
 app.use(express.urlencoded({extended: true}));
 
 app.use(flash());
-
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride("_method")); //_method is how it will be called
@@ -72,27 +186,6 @@ let storage = multer.diskStorage({
 
 let uploadFile = multer({dest: upload, storage: storage, fileFilter: imageFilter});*/
 
-let connection;
-
-if (process.env.JAWSDB_URL) {
-    connection = mysql.createConnection(process.env.JAWSDB_URL)
-} else {
-    connection = mysql.createConnection({
-        host: "localhost",
-        port: 3306,
-        user: "root",
-        password: process.env.DB_PASSWORD,
-        database: "recipes_db"
-    });
-}
-
-connection.connect((err) => {
-    if (err) {
-        console.error(`error connecting: ${err.stack}`);
-        return;
-    }
-    console.log(`connection as id ${connection.threadId}`);
-});
 
 app.get("/", checkAuthenticated, (req, res) => {
     const sql_rec = "select distinct (type) from recipes;"
@@ -112,7 +205,7 @@ app.get("/login", checkNotAuthenticated, (req, res) => {
     res.render("login");
 });
 
-app.post("/login", checkNotAuthenticated, passport.authenticate("local", {
+app.post("/login", checkNotAuthenticated, passport.authenticate("local-login", {
     successRedirect: "/",
     failureRedirect: "/login",
     failureFlash: true
@@ -122,21 +215,35 @@ app.get("/signup", checkNotAuthenticated, (req, res) => {
     res.render("signup");
 });
 
+app.post("/signup", checkNotAuthenticated, passport.authenticate("local-signup", {
+    successRedirect: "/",
+    failureRedirect: "/signup",
+    failureFlash: true
+}));
+
+
+/*
 app.post("/signup", checkNotAuthenticated, async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10); //create a hashed pswd, generated 10 times for security reasons
-        users.push({
+        const sql = `insert into users (id, username, email, password) values ("${Date.now().toString()}", ?, ?, "${hashedPassword}")`;
+        connection.query(sql, [req.body.username, req.body.email], (err, data) => {
+            console.log(data);
+            console.log(req.body);
+            if (err) throw err;
+        });
+        /!*users.push({
             id: Date.now().toString(),
             username: req.body.username,
             email: req.body.email,
             password: hashedPassword
-        });
+        });*!/
         res.redirect("/login");
     } catch {
         res.redirect("/signup");
     }
-    console.log(users);
 });
+*/
 
 app.delete("/logout", (req, res) => {
     req.logOut(); //built-in into passport
