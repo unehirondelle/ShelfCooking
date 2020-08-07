@@ -1,21 +1,46 @@
+require('dotenv').config();
+
 const express = require("express");
 const exprhnlbs = require("express-handlebars");
 const mysql = require("mysql");
-require('dotenv').config();
 const path = require("path");
 const dir = path.join(__dirname, 'public');
 const fs = require("fs");
 /*const multer = require("multer");
 const upload = multer({dest: path.join(dir, 'img/uploads/')});*/
 const exprflupld = require("express-fileupload");
-
-const app = express();
+const bcrypt = require("bcrypt");
+const passport = require("passport");
+const flash = require("express-flash");
+const session = require("express-session");
 
 const PORT = process.env.PORT || 3010;
+
+const initializePassport = require("./passport-config");
+initializePassport(passport,
+    email => users.find(user => user.email === email),
+    id => users.find(user => user.id === id));
+
+const users = [];
+
+
+const app = express();
 
 app.use(express.static(dir));
 
 app.use(express.urlencoded({extended: true}));
+
+app.use(flash());
+
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+
+app.use(passport.session());
 
 app.use(express.json());
 
@@ -74,6 +99,43 @@ app.get("/", (req, res) => {
         if (err) throw err;
         res.render("index", {type: data});
     });
+    // res.render("index", {type: data, username: req.user.username});
+
+});
+
+/*app.get("/", (req, res) => {
+    res.render("index", {username: req.user.username});
+
+});*/
+
+app.get("/login", (req, res) => {
+    res.render("login");
+});
+
+app.post("/login", passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true
+}));
+
+app.get("/signup", (req, res) => {
+    res.render("signup");
+});
+
+app.post("/signup", async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10); //create a hashed pswd, generated 10 times for security reasons
+        users.push({
+            id: Date.now().toString(),
+            username: req.body.username,
+            email: req.body.email,
+            password: hashedPassword
+        });
+        res.redirect("/login");
+    } catch {
+        res.redirect("/signup");
+    }
+    console.log(users);
 });
 
 app.get("/cookbook", (req, res) => {
