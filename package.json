@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha -w",
     "start": "node server.js"
   },
   "keywords": [],
@@ -26,8 +26,9 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "jest": "^26.3.0",
     "mocha": "^8.1.1",
+    "request": "^2.88.2",
+    "sinon": "^9.0.3",
     "supertest": "^4.0.2"
   }
 }
