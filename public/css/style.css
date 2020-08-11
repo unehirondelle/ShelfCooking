@@ -397,12 +397,12 @@ section {
 }
 
 .cookbook ol {
-    padding-left: 7vw;
-    padding-right: 5vw;
+    padding-left: 3%;
+    padding-right: 5%;
 }
 
 .cookbook ol li {
-    padding: 1vw 0;
+    padding: 1% 0;
 }
 
 .cookbook p:last-child {

@@ -60,19 +60,23 @@ function initialize(passport) {
 
     /*passport.use("local-signup", new LocalStrategy({
             usernameField: "email"
-        }, async (req, email, password, done) => {
+        }, (req, email, done) => {
             // const hashedPassword = await bcrypt.hash(req.body.password, 10);
             connection.query("select * from users where email = ?", [email], (err, data) => {
-                console.log("loc-sign: ", data);
-                try {
-                    if (data.length) {
-                        return done(null, false, {message: "The email is already taken"});
-                    } else {
-                        /!* const newUser = new Object();
-                         newUser.id = Date.now().toString();
-                         newUser.username = req.body.username;
-                         newUser.email = req.body.email;
-                         newUser.password = hashedPassword;*!/
+                console.log("loc-sign: ", data.length);
+                if (data.length > 0) {
+                    return done(null, false, {message: "The email is already taken"});
+                } else {
+                    console.log(req.body)
+
+                }
+                /!*try {
+                    if (data.length === 0) {
+                        const newUser = new Object();
+                        newUser.id = Date.now().toString();
+                        newUser.username = req.body.username;
+                        newUser.email = req.body.email;
+                        newUser.password = hashedPassword;
 
                         const sql_newUser = `insert into users (id, username, email, password) values ("${Date.now().toString()}", "${req.body.username}", "${req.body.email}", "${hashedPassword}"`;
                         connection.query(sql_newUser, (err, data) => {
@@ -81,9 +85,9 @@ function initialize(passport) {
                             return done(null, data);
                         });
                     }
-                } catch (err) {
+                        } catch (err) {
                     return done(err);
-                }
+                }*!/
             });
         }
     ));*/
@@ -225,19 +229,18 @@ app.post("/signup", checkNotAuthenticated, async (req, res) => {
         const hashedPassword = await bcrypt.hash(req.body.password, 10); //create a hashed pswd, generated 10 times for security reasons
         const sql_email = `select * from users where email = "${req.body.email}"`;
         connection.query(sql_email, (err, data) => {
-            console.log("checkemail: ", data);
             if (err) throw err;
             if (data.length === 0) {
-                console.log("new_query:", req.body);
                 const sql = `insert into users (id, username, email, password) values ("${Date.now().toString()}", ?, ?, "${hashedPassword}")`;
                 connection.query(sql, [req.body.username, req.body.email], (err, data) => {
-                    console.log("addUser: ", data);
-                    console.log(req.body);
                     if (err) throw err;
+
                 });
-            }
+            } /*else {
+                req.flash('error', "The email is already taken");
+            }*/
+
         })
-        res.redirect("/login");
     } catch {
         res.redirect("/signup");
     }
@@ -264,8 +267,8 @@ app.get("/cookbook/:recipeType", (req, res) => {
     });
 });
 
-app.get("/cookbook/recipes/:recipeName", (req, res) => {
-    const sql_route = `select * from recipes where name="${req.params.recipeName}"`;
+app.get("/cookbook/recipes/:recipeId", (req, res) => {
+    const sql_route = `select * from recipes where id="${req.params.recipeId}"`;
     connection.query(sql_route, (err, data_route) => {
         if (err) throw err;
         const sql_ingr = `select ri.recipe_id, i.name as 'name', ri.measurement_qty as 'amount', mu.name as 'unit' from recipe_ingredients ri join ingredients i on i.id = ri.ingredient_id left outer join measurement_units mu on mu.id = measurement_id where recipe_id = "${data_route[0].id}";`
