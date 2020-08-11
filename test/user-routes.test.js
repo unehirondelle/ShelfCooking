@@ -1,11 +1,10 @@
 const req = require("supertest");
-// const req_req = require("request");
-const connection = require("../config/connection");
+const mysql = require("mysql");
 const expect = require("chai").expect;
 const app = require("../server");
-// const sinon = require("sinon");
+const sinon = require("sinon");
 
-// const mock = sinon.mock(require("mysql"));
+const mockMysql = sinon.mock(mysql);
 
 describe("GET '/'", () => {
     it("loads homepage", (done) => {
@@ -30,7 +29,7 @@ describe("post login", () => {
     });
 });
 
-describe("Lists All breakfast recipes", (done) => {
+describe("Lists All breakfast recipes", () => {
     it("lists all breakfast recipes", (done) => {
         req(app).get("/cookbook/Breakfast").auth("irina@irina.com", 123).expect(200).then((res) => {
             expect(res.body).to.be.a("object");
@@ -40,12 +39,41 @@ describe("Lists All breakfast recipes", (done) => {
     });
 });
 
-/*
-describe("new recipe", () => {
-    it("adds new recipe to DB", (done) => {
-        req(app).post("/cookbook").field("name", "image").attach("Mocha Cake", "./test/fixtures/sandwich-small.jpg").expect("Location", /\/cookbook/, done);
+describe('Database Write Requests', function () {
+
+    beforeEach(() => {
+        mockMysql.expects('createConnection').returns({
+            connect: () => {
+                console.log('Successfully connected');
+            },
+            query: (query, vars, callback) => {
+                callback(null, successfulDbInsert);
+            },
+            end: () => {
+                console.log('Connection ended');
+            }
+        });
+
+    });
+    after(() => {
+        mockMysql.restore();
+    });
+
+    describe('Write to DB', () => {
+
+        it('writes to table recipe', () => {
+            req(app).post("/cookbook", (req, res) => {
+                console.log("req-cookbook: ", req);
+                console.log("req-cookbook: ", res);
+                const sql = "insert into recipes (name) values ('Mocha Cake')";
+                mockMysql.createConnection.query(sql, (err, res) => {
+                    if (err) throw err;
+                    console.log("result: ", res);
+                    expect(res).to.equal(successfulDbInsert);
+                });
+            });
+
+        });
 
     });
 });
-*/
-
