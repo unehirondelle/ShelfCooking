@@ -3,7 +3,7 @@ require('dotenv').config()
 
 //connection configurations
 const dbConn = mysql.createPool({
-    connectionLimit: 5,
+    connectionLimit: 10,
     host: "localhost",
     database: "recipes_db",
     user: "root",

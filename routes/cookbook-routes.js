@@ -50,7 +50,9 @@ module.exports = function (app) {
         res.render("add-recipe");
     });
 
-    app.post("/cookbook", (req, res) => {
+    app.post("/cookbook", require("../config/create"));
+
+    /*app.post("/cookbook", (req, res) => {
         const sql_recipe = "insert into recipes (name, method, time, person_num, type, image, utensils) values (?, ?, ?, ?, ?, ?, ?)";
         connection.query(sql_recipe, [req.body.recipeName, req.body.method, req.body.recipeTime, req.body.portions, req.body.recipeCategory, req.files.recipeImage.data, req.body.utensils], (err, data) => {
             if (err) throw err;
@@ -63,6 +65,6 @@ module.exports = function (app) {
             }
         });
         res.redirect("/cookbook");
-    });
+    });*/
 
 }
