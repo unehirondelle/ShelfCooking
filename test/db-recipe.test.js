@@ -7,6 +7,7 @@ chai.use(sinonChai);
 const expect = chai.expect
 
 const mySql = require("./mySql");
+const sql = require("./sqlQuery");
 const eh = require("./eh");
 
 describe('Route: /add-recipe', () => {
@@ -22,8 +23,8 @@ describe('Route: /add-recipe', () => {
 
         const dbResult = [{recipeId: "1"}]
 
-        const spyInsertQuery = sinon.spy(insertRecipe)
-        const spySelectQuery = sinon.spy(selectRecipeIdByName)
+        const spyInsertQuery = sinon.spy(sql, "insertRecipe")
+        const spySelectQuery = sinon.spy(sql, "selectRecipeIdByName")
         const stubMySql = sinon.stub(mySql, "executeQuery").onSecondCall().returns(dbResult)
 
         await create(req, res)
@@ -123,11 +124,11 @@ async function create(req, res) {
     try {
         if (name) {
             // insert the new recipe into the db
-            let sqlQuery = insertRecipe(name, type)
+            let sqlQuery = sql.insertRecipe(name, type)
             await mySql.executeQuery(sqlQuery)
 
             // get the 'recipe_id' for the newly create recipe
-            sqlQuery = selectRecipeIdByName(name)
+            sqlQuery = sql.selectRecipeIdByName(name)
             const dbResult = await mySql.executeQuery(sqlQuery)
             const {recipeId} = dbResult[0]
 
@@ -147,21 +148,4 @@ async function create(req, res) {
             res.status(response.statusCode).send(response.body)
         }
     }
-}
-
-
-function selectNameAndRecipeId(params) {
-    return `SELECT id, name 
-            FROM recipes;`
-}
-
-function insertRecipe(name, type) {
-    return `INSERT INTO recipes (name, type)
-            VALUES('${name}','${type}');`
-}
-
-function selectRecipeIdByName(name) {
-    return `SELECT id as recipeId
-            FROM recipes
-            WHERE name='${name}';`
 }
