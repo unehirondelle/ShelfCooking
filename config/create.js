@@ -5,7 +5,13 @@ const eh = require("../test/eh");
 async function createRecipe(req, res) {
     const {recipeName, method, recipeTime, portions, recipeCategory, utensils} = req.body;
     // const {data} = req.files.recipeImage;
-    const image = req.files.recipeImage.data;
+    let image;
+    if (req.files === null) {
+        image = null;
+    } else {
+        image = req.files.recipeImage.data;
+    }
+
     let message = "";
 
     try {
@@ -24,7 +30,7 @@ async function createRecipe(req, res) {
             message = {message: "The name value is blank. Please enter a unique name."}
         }
 
-        // res.send(message);
+        res.send(message);
         res.redirect("/cookbook");
     } catch (error) {
         if (error.code == 'ER_DUP_ENTRY') {

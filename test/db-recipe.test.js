@@ -18,6 +18,9 @@ describe('Route: /add-recipe', () => {
             body: {
                 recipeName: "Mocha Cake",
                 recipeCategory: "Dessert"
+            },
+            files: {
+                recipeImage: sinon.stub()
             }
         }
         const req = mockReq(request)

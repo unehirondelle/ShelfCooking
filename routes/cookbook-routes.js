@@ -40,7 +40,10 @@ module.exports = function (app) {
         connection.query(sql, (err, data) => {
             if (err) throw err;
             res.contentType("image/jpeg");
-            let buffer = Buffer.from(data[0].image, 'binary');
+            let buffer = "";
+            if (data[0].image !== null) {
+                buffer = Buffer.from(data[0].image, 'binary');
+            }
             res.write(buffer);
             res.end()
         });
