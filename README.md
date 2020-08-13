@@ -1,2 +1,2 @@
 
-To run the app: https://dashboard.heroku.com/apps/shelf-cooking
+To run the app: https://shelf-cooking.herokuapp.com/

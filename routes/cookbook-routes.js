@@ -1,9 +1,10 @@
 const connection = require("../config/connection");
-const exprflupld = require("express-fileupload");
+const expressFileUpload = require("express-fileupload");
+const dbService = require("../config/db-service");
 
 module.exports = function (app) {
 
-    app.use(exprflupld({
+    app.use(expressFileUpload({
         limits: {fileSize: 50 * 1024 * 1024},
     }));
 
@@ -40,7 +41,10 @@ module.exports = function (app) {
         connection.query(sql, (err, data) => {
             if (err) throw err;
             res.contentType("image/jpeg");
-            let buffer = Buffer.from(data[0].image, 'binary');
+            let buffer = "";
+            if (data[0].image !== null) {
+                buffer = Buffer.from(data[0].image, 'binary');
+            }
             res.write(buffer);
             res.end()
         });
@@ -50,7 +54,9 @@ module.exports = function (app) {
         res.render("add-recipe");
     });
 
-    app.post("/cookbook", (req, res) => {
+    app.post("/cookbook", dbService.createRecipe);
+
+    /*app.post("/cookbook", (req, res) => {
         const sql_recipe = "insert into recipes (name, method, time, person_num, type, image, utensils) values (?, ?, ?, ?, ?, ?, ?)";
         connection.query(sql_recipe, [req.body.recipeName, req.body.method, req.body.recipeTime, req.body.portions, req.body.recipeCategory, req.files.recipeImage.data, req.body.utensils], (err, data) => {
             if (err) throw err;
@@ -63,6 +69,6 @@ module.exports = function (app) {
             }
         });
         res.redirect("/cookbook");
-    });
+    });*/
 
 }
