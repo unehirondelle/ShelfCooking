@@ -1,9 +1,10 @@
 const connection = require("../config/connection");
-const exprflupld = require("express-fileupload");
+const expressFileUpload = require("express-fileupload");
+const dbService = require("../config/db-service");
 
 module.exports = function (app) {
 
-    app.use(exprflupld({
+    app.use(expressFileUpload({
         limits: {fileSize: 50 * 1024 * 1024},
     }));
 
@@ -53,7 +54,7 @@ module.exports = function (app) {
         res.render("add-recipe");
     });
 
-    app.post("/cookbook", require("../config/create"));
+    app.post("/cookbook", dbService.createRecipe);
 
     /*app.post("/cookbook", (req, res) => {
         const sql_recipe = "insert into recipes (name, method, time, person_num, type, image, utensils) values (?, ?, ?, ?, ?, ?, ?)";

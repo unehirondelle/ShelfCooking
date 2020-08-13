@@ -1,4 +1,4 @@
-const connection = require("./connection");
+const connection = require("../../config/connection");
 
 async function executeQuery(sqlString, image) {
     return await new Promise(function (resolve, reject) {

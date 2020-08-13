@@ -1,6 +1,6 @@
-const mySql = require("./executeQuery");
-const sql = require("../test/sqlQuery-cookbook");
-const eh = require("../test/eh");
+const mySql = require("../helpers/mysql/executeQuery");
+const sql = require("../helpers/mysql/sqlQuery-cookbook");
+const eh = require("../helpers/eh");
 
 async function createRecipe(req, res) {
     const {recipeName, method, recipeTime, portions, recipeCategory, utensils} = req.body;
@@ -44,4 +44,8 @@ async function createRecipe(req, res) {
     }
 }
 
-module.exports = createRecipe;
+function alertFun() {
+    console.log("Hello");
+}
+
+module.exports = {createRecipe, alertFun};

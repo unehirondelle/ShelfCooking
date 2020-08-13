@@ -6,10 +6,10 @@ const {mockReq, mockRes} = require('sinon-express-mock');
 chai.use(sinonChai);
 const expect = chai.expect
 
-const createRecipe = require("../config/create");
-const mySql = require("../config/executeQuery");
-const sql = require("./sqlQuery-cookbook");
-const eh = require("./eh");
+const dbService = require("../config/db-service");
+const mySql = require("../helpers/mysql/executeQuery");
+const sql = require("../helpers/mysql/sqlQuery-cookbook");
+const eh = require("../helpers/eh");
 
 describe('Route: /add-recipe', () => {
     it('should save new recipe details to the database', async () => {
@@ -27,17 +27,18 @@ describe('Route: /add-recipe', () => {
                 recipeImage: sinon.stub()
             }
         }
-        const req = mockReq(request)
 
-        const res = mockRes()
+        const req = mockReq(request);
 
-        const dbResult = [{recipeId: "1"}]
+        const res = mockRes();
+
+        const dbResult = [{recipeId: "1"}];
 
         const spyInsertQuery = sinon.spy(sql, "insertRecipe")
         const spySelectQuery = sinon.spy(sql, "selectRecipeIdByName")
         const stubMySql = sinon.stub(mySql, "executeQuery").onSecondCall().returns(dbResult)
 
-        await createRecipe(req, res)
+        await dbService.createRecipe(req, res)
 
         expect(res.send).to.be.calledWithExactly({
             message: "Success!! Your new recipe has been saved to the Database."
@@ -74,7 +75,7 @@ describe('Route: /add-recipe', () => {
 
         sinon.stub(mySql, "executeQuery").throws(err)
 
-        await createRecipe(req, res)
+        await dbService.createRecipe(req, res)
 
         expect(res.send).to.be.calledWithExactly({
             message: "You have entered a duplicate name!"
@@ -100,7 +101,7 @@ describe('Route: /add-recipe', () => {
         const req = mockReq(request)
         const res = mockRes()
 
-        await createRecipe(req, res)
+        await dbService.createRecipe(req, res)
 
         expect(res.send).to.be.calledWithExactly({
             message: "The name value is blank. Please enter a unique name."
@@ -141,7 +142,7 @@ describe('Route: /add-recipe', () => {
         const spyErrorsHandler = sinon.spy(eh, "errorsHandler")
         sinon.stub(mySql, "executeQuery").throws(err)
 
-        await createRecipe(req, res)
+        await dbService.createRecipe(req, res)
 
         sinon.assert.calledOnce(spyErrorsHandler)
         sinon.assert.calledWith(spyErrorsHandler, err)
