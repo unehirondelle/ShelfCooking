@@ -17,7 +17,11 @@ describe('Route: /add-recipe', () => {
         const request = {
             body: {
                 recipeName: "Mocha Cake",
-                recipeCategory: "Dessert"
+                method: null,
+                recipeTime: "3 h",
+                portions: "12",
+                recipeCategory: "Dessert",
+                utensils: null
             },
             files: {
                 recipeImage: sinon.stub()
@@ -40,9 +44,9 @@ describe('Route: /add-recipe', () => {
         })
 
         sinon.assert.calledOnce(spyInsertQuery)
-        sinon.assert.calledWith(spyInsertQuery, request.body.name, request.body.type)
+        sinon.assert.calledWith(spyInsertQuery, request.body.recipeName,  request.body.method, request.body.recipeTime, request.body.portions, request.body.recipeCategory, request.body.utensils);
         sinon.assert.calledOnce(spySelectQuery)
-        sinon.assert.calledWith(spySelectQuery, request.body.name)
+        sinon.assert.calledWith(spySelectQuery, request.body.recipeName)
         sinon.assert.calledTwice(stubMySql)
         sinon.restore()
     })
@@ -54,7 +58,14 @@ describe('Route: /add-recipe', () => {
         const request = {
             body: {
                 recipeName: "Mocha Cake",
-                recipeCategory: "Dessert"
+                method: null,
+                recipeTime: "3 h",
+                portions: "12",
+                recipeCategory: "Dessert",
+                utensils: null
+            },
+            files: {
+                recipeImage: sinon.stub()
             }
         }
 
@@ -75,9 +86,17 @@ describe('Route: /add-recipe', () => {
         const request = {
             body: {
                 recipeName: "",
-                recipeCategory: "Dessert"
+                method: null,
+                recipeTime: "3 h",
+                portions: "12",
+                recipeCategory: "Dessert",
+                utensils: null
+            },
+            files: {
+                recipeImage: sinon.stub()
             }
         }
+
         const req = mockReq(request)
         const res = mockRes()
 
@@ -105,7 +124,14 @@ describe('Route: /add-recipe', () => {
         const request = {
             body: {
                 recipeName: "Mocha Cake",
-                recipeCategory: "Dessert"
+                method: null,
+                recipeTime: "3 h",
+                portions: "12",
+                recipeCategory: "Dessert",
+                utensils: null
+            },
+            files: {
+                recipeImage: sinon.stub()
             }
         }
 
