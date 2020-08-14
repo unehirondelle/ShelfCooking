@@ -45,12 +45,12 @@ describe('Route: /add-recipe', () => {
         })
 
         sinon.assert.calledOnce(spyInsertQuery)
-        sinon.assert.calledWith(spyInsertQuery, request.body.recipeName,  request.body.method, request.body.recipeTime, request.body.portions, request.body.recipeCategory, request.body.utensils);
+        sinon.assert.calledWith(spyInsertQuery, request.body.recipeName, request.body.method, request.body.recipeTime, request.body.portions, request.body.recipeCategory, request.body.utensils);
         sinon.assert.calledOnce(spySelectQuery)
         sinon.assert.calledWith(spySelectQuery, request.body.recipeName)
         sinon.assert.calledTwice(stubMySql)
         sinon.restore()
-    })
+    });
 
     it('should display an error if a customer attempts to create a recipe with a duplicated name', async () => {
         const err = {
@@ -81,7 +81,7 @@ describe('Route: /add-recipe', () => {
             message: "You have entered a duplicate name!"
         })
         sinon.restore()
-    })
+    });
 
     it('should display an error if a customer leaves the name value blank', async () => {
         const request = {
@@ -107,7 +107,7 @@ describe('Route: /add-recipe', () => {
             message: "The name value is blank. Please enter a unique name."
         })
         sinon.restore()
-    })
+    });
 
     it('should display an meaningful error when a downstream/underlying network request fails', async () => {
         const err = {
@@ -147,5 +147,37 @@ describe('Route: /add-recipe', () => {
         sinon.assert.calledOnce(spyErrorsHandler)
         sinon.assert.calledWith(spyErrorsHandler, err)
         sinon.restore()
-    })
+    });
+
+    it('should build the SQL request from given parameters', async () => {
+        const request = {
+            body: {
+                recipeName: "Mocha Cake",
+                method: null,
+                recipeTime: "3 h",
+                portions: "12",
+                recipeCategory: "Dessert",
+                utensils: null
+            },
+            files: {
+                recipeImage: sinon.stub()
+            }
+        }
+
+        const req = mockReq(request);
+        const res = mockRes();
+
+        const sqlRequest = `INSERT INTO recipes (name, method, time, person_num, type, image, utensils)
+            VALUES("Mocha Cake", "null", "3 h", "12", "Dessert", ?, "null");`;
+
+        const spyInsertQuery = sinon.spy(sql, "insertRecipe");
+
+        await dbService.createRecipe(req, res);
+
+        expect(sql.insertRecipe(request.body.recipeName, request.body.method, request.body.recipeTime, request.body.portions, request.body.recipeCategory, request.body.utensils)).to.equal(sqlRequest);
+
+        sinon.assert.calledWith(spyInsertQuery, request.body.recipeName, request.body.method, request.body.recipeTime, request.body.portions, request.body.recipeCategory, request.body.utensils);
+        sinon.restore();
+
+    });
 })
