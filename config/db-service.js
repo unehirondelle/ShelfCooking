@@ -3,7 +3,8 @@ const sql = require("../helpers/mysql/sqlQuery-cookbook");
 const eh = require("../helpers/eh");
 
 async function createRecipe(req, res) {
-    const {recipeName, method, recipeTime, portions, recipeCategory, utensils} = req.body;
+    const {recipeName, method, recipeTime, portions, recipeCategory, utensils, ingredient, ingredientQty, ingredientUnit} = req.body;
+    let insertId;
     // const {data} = req.files.recipeImage;
     let image;
     if (req.files === null) {
@@ -18,7 +19,12 @@ async function createRecipe(req, res) {
         if (recipeName) {
             // insert the new recipe into the db
             let sqlQuery = sql.insertRecipe(recipeName, method, recipeTime, portions, recipeCategory, utensils);
-            await mySql.executeQuery(sqlQuery, image);
+
+            let recipeResponse = await mySql.executeQuery(sqlQuery, image);
+            insertId = recipeResponse.insertId;
+
+            let sqlQuery_ingr = sql.insertIngredients(insertId);
+            await mySql.executeQueryIngredients(sqlQuery_ingr, ingredient, ingredientQty, ingredientUnit);
 
             // get the 'recipe_id' for the newly create recipe
             sqlQuery = sql.selectRecipeIdByName(recipeName);

@@ -4,14 +4,11 @@ const connection = require("./connection.js");
 
 function initialize(passport) {
     passport.serializeUser((user, done) => {
-        console.log("serializeUser: ", user);
         done(null, user);
     });
 
     passport.deserializeUser((user, done) => {
-        console.log("deserializeUser: ", user);
         connection.query("select * from users where email = ?", [user], (err, rows) => {
-            console.log("deSer result: ", rows);
             done(err, rows[0].id);
         });
     });
@@ -20,7 +17,6 @@ function initialize(passport) {
             usernameField: "email"
         }, (email, password, done) => {
             connection.query("select * from users where email = ?", [email], async (err, data) => {
-                // console.log("loc-log data: ", data);
                 if (!data.length) {
                     return done(null, false, {message: "No user with that email"});
                 }

@@ -8,6 +8,11 @@ function insertRecipe(recipeName, method, recipeTime, portions, recipeCategory, 
             VALUES("${recipeName}", "${method}", "${recipeTime}", "${portions}", "${recipeCategory}", ?, "${utensils}");`
 }
 
+function insertIngredients(insertId) {
+    return `INSERT INTO recipe_ingredients (recipe_id, ingredient_id, measurement_qty, measurement_id) VALUES ("${insertId}", ?, ?, ?);`
+
+}
+
 function selectRecipeIdByName(recipeName) {
     return `SELECT id as recipeId
             FROM recipes
@@ -17,5 +22,6 @@ function selectRecipeIdByName(recipeName) {
 module.exports = {
     selectNameAndRecipeId,
     selectRecipeIdByName,
-    insertRecipe
+    insertRecipe,
+    insertIngredients
 }
