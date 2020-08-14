@@ -51,7 +51,7 @@ module.exports = function (app) {
                 if (err) throw err;
                 if (data.length === 0) {
                     const sql = `insert into users (id, username, email, password) values ("${Date.now().toString()}", ?, ?, "${hashedPassword}")`;
-                    connection.query(sql, [req.body.username, req.body.email], (err, data) => {
+                    connection.query(sql, [req.body.username, req.body.email], (err) => {
                         if (err) throw err;
                         res.redirect("/");
                     });

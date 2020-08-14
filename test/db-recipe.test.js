@@ -21,7 +21,8 @@ describe('Route: /add-recipe', () => {
                 recipeTime: "3 h",
                 portions: "12",
                 recipeCategory: "Dessert",
-                utensils: null
+                utensils: null,
+                ingredient: null
             },
             files: {
                 recipeImage: sinon.stub()
@@ -152,12 +153,13 @@ describe('Route: /add-recipe', () => {
     it('should build the SQL request from given parameters', async () => {
         const request = {
             body: {
-                recipeName: "Mocha Cake",
+                recipeName: "New Cake",
                 method: null,
                 recipeTime: "3 h",
                 portions: "12",
                 recipeCategory: "Dessert",
-                utensils: null
+                utensils: null,
+                ingredient: null
             },
             files: {
                 recipeImage: sinon.stub()
@@ -168,7 +170,7 @@ describe('Route: /add-recipe', () => {
         const res = mockRes();
 
         const sqlRequest = `INSERT INTO recipes (name, method, time, person_num, type, image, utensils)
-            VALUES("Mocha Cake", "null", "3 h", "12", "Dessert", ?, "null");`;
+            VALUES("New Cake", "null", "3 h", "12", "Dessert", ?, "null");`;
 
         const spyInsertQuery = sinon.spy(sql, "insertRecipe");
 

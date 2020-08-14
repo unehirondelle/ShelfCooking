@@ -20,11 +20,17 @@ async function createRecipe(req, res) {
             // insert the new recipe into the db
             let sqlQuery = sql.insertRecipe(recipeName, method, recipeTime, portions, recipeCategory, utensils);
 
-            let recipeResponse = await mySql.executeQuery(sqlQuery, image);
-            insertId = recipeResponse.insertId;
+            if (ingredient === null) {
+                await mySql.executeQuery(sqlQuery, image);
+            } else {
+                let recipeResponse = await mySql.executeQuery(sqlQuery, image);
+                insertId = recipeResponse.insertId;
 
-            sqlQuery = sql.insertIngredients(insertId);
-            await mySql.executeQueryIngredients(sqlQuery, ingredient, ingredientQty, ingredientUnit);
+                sqlQuery = sql.insertIngredients(insertId);
+                await mySql.executeQueryIngredients(sqlQuery, ingredient, ingredientQty, ingredientUnit);
+
+            }
+
 
             // get the 'recipe_id' for the newly create recipe
             sqlQuery = sql.selectRecipeIdByName(recipeName);
@@ -39,7 +45,7 @@ async function createRecipe(req, res) {
         res.send(message);
         res.redirect("/cookbook");
     } catch (error) {
-        if (error.code == 'ER_DUP_ENTRY') {
+        if (error.code === 'ER_DUP_ENTRY') {
             res.status(400).send({
                 message: "You have entered a duplicate name!"
             });

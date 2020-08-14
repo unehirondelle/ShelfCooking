@@ -56,19 +56,4 @@ module.exports = function (app) {
 
     app.post("/cookbook", dbService.createRecipe);
 
-    /*app.post("/cookbook", (req, res) => {
-        const sql_recipe = "insert into recipes (name, method, time, person_num, type, image, utensils) values (?, ?, ?, ?, ?, ?, ?)";
-        connection.query(sql_recipe, [req.body.recipeName, req.body.method, req.body.recipeTime, req.body.portions, req.body.recipeCategory, req.files.recipeImage.data, req.body.utensils], (err, data) => {
-            if (err) throw err;
-            console.log(data.insertId);
-            for (let i = 0; i < req.body.ingredient.length; i++) {
-                const sql_ingr = `insert into recipe_ingredients (recipe_id, ingredient_id, measurement_qty, measurement_id) values ("${data.insertId}", ?, ?, ?)`;
-                connection.query(sql_ingr, [req.body.ingredient[i], req.body.ingredientQty[i], req.body.ingredientUnit[i]], (err, data_ingr) => {
-                    if (err) throw err;
-                });
-            }
-        });
-        res.redirect("/cookbook");
-    });*/
-
 }

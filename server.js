@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const express = require("express");
-const exprhnlbs = require("express-handlebars");
+const expressHandlebars = require("express-handlebars");
 const path = require("path");
 const dir = path.join(__dirname, 'public');
 const fs = require("fs");
@@ -19,7 +19,7 @@ require("./routes/cookbook-routes")(app);
 
 app.use(express.json());
 
-app.engine("handlebars", exprhnlbs({defaultLayout: "main"}));
+app.engine("handlebars", expressHandlebars({defaultLayout: "main"}));
 
 app.set("view engine", "handlebars");
 
