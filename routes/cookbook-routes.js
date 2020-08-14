@@ -1,6 +1,7 @@
 const connection = require("../config/connection");
 const expressFileUpload = require("express-fileupload");
 const dbService = require("../config/db-service");
+const auth = require("../helpers/checkAuthenticated");
 
 module.exports = function (app) {
 
@@ -8,7 +9,7 @@ module.exports = function (app) {
         limits: {fileSize: 50 * 1024 * 1024},
     }));
 
-    app.get("/cookbook", (req, res) => {
+    app.get("/cookbook", auth.checkAuthenticated, (req, res) => {
         const sql_rec = "select distinct (type) from recipes;"
         connection.query(sql_rec, (err, data) => {
             if (err) throw err;
@@ -16,7 +17,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get("/cookbook/:recipeType", (req, res) => {
+    app.get("/cookbook/:recipeType", auth.checkAuthenticated, (req, res) => {
         const sql_rec = `select * from recipes where type="${req.params.recipeType}"`;
         connection.query(sql_rec, (err, data) => {
             if (err) throw err;
@@ -24,7 +25,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get("/cookbook/recipes/:recipeId", (req, res) => {
+    app.get("/cookbook/recipes/:recipeId", auth.checkAuthenticated, (req, res) => {
         const sql_route = `select * from recipes where id="${req.params.recipeId}"`;
         connection.query(sql_route, (err, data_route) => {
             if (err) throw err;
@@ -36,7 +37,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get("/images/:imageId", (req, res) => {
+    app.get("/images/:imageId", auth.checkAuthenticated, (req, res) => {
         const sql = `select * from recipes where id="${req.params.imageId}"`;
         connection.query(sql, (err, data) => {
             if (err) throw err;
@@ -50,10 +51,10 @@ module.exports = function (app) {
         });
     });
 
-    app.get("/add-recipe", (req, res) => {
+    app.get("/add-recipe", auth.checkAuthenticated, (req, res) => {
         res.render("add-recipe");
     });
 
-    app.post("/cookbook", dbService.createRecipe);
+    app.post("/cookbook", auth.checkAuthenticated, dbService.createRecipe);
 
 }

@@ -5,6 +5,7 @@ const flash = require("express-flash");
 const session = require("express-session");
 const methodOverride = require("method-override");
 const connection = require("../config/connection");
+const auth = require("../helpers/checkAuthenticated");
 
 module.exports = function (app) {
 
@@ -20,17 +21,17 @@ module.exports = function (app) {
     app.use(passport.session());
     app.use(methodOverride("_method"));
 
-    app.get("/login", checkNotAuthenticated, (req, res) => {
+    app.get("/login", auth.checkNotAuthenticated, (req, res) => {
         res.render("login");
     });
 
-    app.post("/login", checkNotAuthenticated, passport.authenticate("local-login", {
+    app.post("/login", auth.checkNotAuthenticated, passport.authenticate("local-login", {
         successRedirect: "/",
         failureRedirect: "/login",
         failureFlash: true
     }));
 
-    app.get("/", checkAuthenticated, (req, res) => {
+    app.get("/", auth.checkAuthenticated, (req, res) => {
         const sql_rec = "select distinct (type) from recipes;"
         connection.query(sql_rec, (err, data) => {
             if (err) throw err;
@@ -39,11 +40,11 @@ module.exports = function (app) {
 
     });
 
-    app.get("/signup", checkNotAuthenticated, (req, res) => {
+    app.get("/signup", auth.checkNotAuthenticated, (req, res) => {
         res.render("signup");
     });
 
-    app.post("/signup", checkNotAuthenticated, async (req, res) => {
+    app.post("/signup", auth.checkNotAuthenticated, async (req, res) => {
         try {
             const hashedPassword = await bcrypt.hash(req.body.password, 10);
             const sql_email = `select * from users where email = "${req.body.email}"`;
@@ -66,19 +67,5 @@ module.exports = function (app) {
         req.logOut();
         res.redirect("/login");
     });
-
-    function checkAuthenticated(req, res, next) {
-        if (req.isAuthenticated()) {
-            return next();
-        }
-        res.redirect("/login");
-    }
-
-    function checkNotAuthenticated(req, res, next) {
-        if (req.isAuthenticated()) {
-            return res.redirect("/");
-        }
-        next();
-    }
 
 }
