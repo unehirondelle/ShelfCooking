@@ -20,7 +20,7 @@ async function createRecipe(req, res) {
             // insert the new recipe into the db
             let sqlQuery = sql.insertRecipe(recipeName, method, recipeTime, portions, recipeCategory, utensils);
 
-            if (ingredient === null) {
+            if (!ingredient) {
                 await mySql.executeQuery(sqlQuery, image);
             } else {
                 let recipeResponse = await mySql.executeQuery(sqlQuery, image);
