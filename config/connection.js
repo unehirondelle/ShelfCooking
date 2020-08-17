@@ -1,12 +1,12 @@
 const mysql = require("mysql");
 require('dotenv').config();
 
-let connection;
+let pool;
 
 if (process.env.JAWSDB_URL) {
-    connection = mysql.createPool(process.env.JAWSDB_URL);
+    pool = mysql.createPool(process.env.JAWSDB_URL);
 } else {
-    connection = mysql.createPool({
+    pool = mysql.createPool({
         connectionLimit: 10,
         host: "localhost",
         port: 3306,
@@ -16,17 +16,22 @@ if (process.env.JAWSDB_URL) {
     });
 }
 
-connection.getConnection((err, connection) => {
-    if (err) {
-        console.error(`error connecting: ${err.stack}`);
-        return;
-    }
-    if (connection) {
+
+function queryExecutor(query, values, cb) {
+
+    pool.getConnection((err, connection) => {
+        if (err) {
+            throw err;
+        }
         console.log(`connection as id ${connection.threadId}`);
-        connection.release();
-    }
-});
+        connection.query(query, values, (err, data) => {
+            connection.release();
+            if (!err) {
+                cb(null, data);
+            }
+        });
+    });
+}
 
 
-
-module.exports = connection;
+module.exports = {pool, queryExecutor: queryExecutor};

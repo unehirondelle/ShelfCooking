@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const flash = require("express-flash");
 const session = require("express-session");
 const methodOverride = require("method-override");
-const connection = require("../config/connection");
+const dbConnection = require("../config/connection");
 const auth = require("../helpers/checkAuthenticated");
 
 module.exports = function (app) {
@@ -22,7 +22,7 @@ module.exports = function (app) {
     app.use(methodOverride("_method"));
 
     app.get("/login", auth.checkNotAuthenticated, (req, res) => {
-        res.status(200).render("login");
+        res.render("login");
     });
 
     app.post("/login", auth.checkNotAuthenticated, passport.authenticate("local-login", {
@@ -32,32 +32,42 @@ module.exports = function (app) {
     }));
 
     app.get("/", auth.checkAuthenticated, (req, res) => {
-        const sql_rec = "select distinct (type) from recipes;"
-        connection.query(sql_rec, (err, data) => {
-            if (err) throw err;
-            res.render("index", {type: data});
-        });
-
+        const sql = "select distinct (type) from recipes;";
+        dbConnection.queryExecutor(
+            sql,
+            null,
+            (err, data) => {
+                if (err) throw err;
+                res.render("index", {type: data});
+            }
+        );
     });
 
     app.get("/signup", auth.checkNotAuthenticated, (req, res) => {
-        res.send(200).render("signup");
+        res.render("signup");
     });
 
     app.post("/signup", auth.checkNotAuthenticated, async (req, res) => {
         try {
             const hashedPassword = await bcrypt.hash(req.body.password, 10);
-            const sql_email = `select * from users where email = "${req.body.email}"`;
-            connection.query(sql_email, (err, data) => {
-                if (err) throw err;
-                if (data.length === 0) {
-                    const sql = `insert into users (id, username, email, password) values ("${Date.now().toString()}", ?, ?, "${hashedPassword}")`;
-                    connection.query(sql, [req.body.username, req.body.email], (err) => {
-                        if (err) throw err;
-                        res.redirect("/");
-                    });
+            dbConnection.queryExecutor(
+                `select * from users where email = "${req.body.email}"`,
+                null,
+                (err, data) => {
+                    if (err) throw err;
+                    if (data.length === 0) {
+                        dbConnection.queryExecutor(
+                            `insert into users (id, username, email, password) values ("${Date.now().toString()}", ?, ?, "${hashedPassword}")`,
+                            [req.body.username, req.body.email],
+                            (err) => {
+                                if (err) throw err;
+                                res.redirect("/");
+                            }
+                        );
+                    }
                 }
-            })
+            );
+
         } catch {
             res.redirect("/signup");
         }

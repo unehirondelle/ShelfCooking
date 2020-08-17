@@ -6,6 +6,7 @@ const {mockReq, mockRes} = require('sinon-express-mock');
 chai.use(sinonChai);
 const expect = chai.expect
 
+// const connection = require("../config/connection");
 const dbService = require("../config/db-service");
 const mySql = require("../helpers/mysql/executeQuery");
 const sql = require("../helpers/mysql/sqlQuery-cookbook");
