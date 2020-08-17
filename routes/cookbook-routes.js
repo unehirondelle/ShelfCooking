@@ -13,7 +13,7 @@ module.exports = function (app) {
         const sql_rec = "select distinct (type) from recipes;"
         connection.query(sql_rec, (err, data) => {
             if (err) throw err;
-            res.render("index", {type: data});
+            res.status(200).render("index", {type: data});
         });
     });
 

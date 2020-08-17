@@ -1,16 +1,10 @@
 const req = require("supertest");
-const mysql = require("mysql");
-const expect = require("chai").expect;
 const app = require("../server");
-const sinon = require("sinon");
 
-describe("Lists All breakfast recipes", () => {
+
+describe("GET /cookbook/breakfast", () => {
     it("lists all breakfast recipes", (done) => {
-        req(app).get("/cookbook/Breakfast").auth("irina@irina.com", "1234").expect(200).then((res) => {
-            expect(res.body).to.be.a("object");
-            console.log("response: ", res.body);
-            done();
-        });
+        req(app).get("/cookbook/breakfast").auth("irina@irina.com", "123").expect("Location", /\/cookbook\/breakfast/).expect(200, done);
     });
 });
 

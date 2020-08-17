@@ -22,7 +22,7 @@ module.exports = function (app) {
     app.use(methodOverride("_method"));
 
     app.get("/login", auth.checkNotAuthenticated, (req, res) => {
-        res.render("login");
+        res.status(200).render("login");
     });
 
     app.post("/login", auth.checkNotAuthenticated, passport.authenticate("local-login", {
@@ -41,7 +41,7 @@ module.exports = function (app) {
     });
 
     app.get("/signup", auth.checkNotAuthenticated, (req, res) => {
-        res.render("signup");
+        res.send(200).render("signup");
     });
 
     app.post("/signup", auth.checkNotAuthenticated, async (req, res) => {
