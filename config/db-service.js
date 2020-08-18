@@ -27,10 +27,8 @@ async function createRecipe(req, res) {
                 insertId = recipeResponse.insertId;
 
                 sqlQuery = sql.insertIngredients(insertId);
-                await mySql.executeQueryIngredients(sqlQuery, ingredient, ingredientQty, ingredientUnit);
-
+                await mySql.executeQueryIngredients(sqlQuery, ingredient, ingredientQty, ingredientUnit);s
             }
-
 
             // get the 'recipe_id' for the newly create recipe
             sqlQuery = sql.selectRecipeIdByName(recipeName);

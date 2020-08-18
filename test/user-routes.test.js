@@ -9,12 +9,12 @@ describe("unauthenticated attempt to get homepage", () => {
 
 describe("POST login", () => {
     it("accepts credentials & redirects to homepage", (done) => {
-        req(app).post("/login").send("email=irina@irina.com&password=123").expect("Location", /\//, done);
+        req(app).post("/login").send("email=irina@irina.co&password=123").expect(302, done);
     });
 
 
     it("rejects wrong credentials & redirects to login", (done) => {
-        req(app).post("/login").send("email=irina@irina.com&password=12345").expect("Location", /\/login/, done);
+        req(app).post("/login").send("email=irina@irina.com&password=12345").expect(401, done);
     });
 });
 

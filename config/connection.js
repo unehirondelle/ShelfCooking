@@ -20,9 +20,7 @@ if (process.env.JAWSDB_URL) {
 function queryExecutor(query, values, cb) {
 
     pool.getConnection((err, connection) => {
-        if (err) {
-            throw err;
-        }
+        if (err) throw err;
         console.log(`connection as id ${connection.threadId}`);
         connection.query(query, values, (err, data) => {
             connection.release();
