@@ -27,7 +27,7 @@ module.exports = function (app) {
 
     app.post("/login", auth.checkNotAuthenticated, passport.authenticate("local-login", {
         successRedirect: "/",
-        // failureRedirect: "/login",
+        failureRedirect: "/login",
         failureFlash: true
     }));
 
@@ -65,7 +65,7 @@ module.exports = function (app) {
                             }
                         );
                     } else
-                    return res.status(403).render("signup", {message: "There is a user with such email"});
+                    return res.status(401).render("signup", {message: "There is a user with such email"});
                 }
             );
 

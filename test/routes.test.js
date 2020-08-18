@@ -1,4 +1,4 @@
-const decache = require("decache");
+// const decache = require("decache");
 
 const req = require("supertest");
 const agent = req.agent("http://localhost:3000");
@@ -22,7 +22,7 @@ describe("Unauthenticated access to Homepage", () => {
 
 describe("Authenticated access to Homepage", () => {
 
-    afterEach(function () {
+    after(function () {
         auth.checkAuthenticated.restore();
     });
 
