@@ -6,9 +6,12 @@ const session = require("express-session");
 const methodOverride = require("method-override");
 const dbConnection = require("../config/connection");
 const auth = require("../helpers/checkAuthenticated");
-const MySQLStore = require("express-mysql-session")(session);
+const mySQLStore = require("express-mysql-session")(session);
 
-const sessionStore = new MySQLStore({
+const sessionConnection = dbConnection.sessionConnection;
+
+console.log("created session storage connection", sessionConnection);
+const sessionStore = new mySQLStore({
     checkExpirationInterval: 900000,// How frequently expired sessions will be cleared; milliseconds.
     expiration: 86400000,// The maximum age of a valid session; milliseconds.
     createDatabaseTable: true,// Whether or not to create the sessions database table, if one does not already exist.
@@ -20,13 +23,12 @@ const sessionStore = new MySQLStore({
             data: 'data'
         }
     }
-}, dbConnection);
+}, sessionConnection);
+
 
 module.exports = function (app) {
 
     initialize(passport);
-
-    app.use(flash());
     app.use(session({
         secret: process.env.SESSION_SECRET,
         resave: true,
@@ -37,6 +39,7 @@ module.exports = function (app) {
         rolling: true,
         store: sessionStore
     }));
+    app.use(flash());
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(methodOverride("_method"));

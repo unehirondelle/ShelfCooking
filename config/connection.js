@@ -2,13 +2,15 @@ const mysql = require("mysql");
 require('dotenv').config();
 
 let pool;
+let config;
+
 
 if (process.env.JAWSDB_URL) {
-    pool = mysql.createPool(process.env.JAWSDB_URL);
+    config = process.env.JAWSDB_URL;
 } else {
-    pool = mysql.createPool({
+    config = {
         connectionLimit: 10,
-        connectTimeout: 60 * 60 * 1000,
+            connectTimeout: 60 * 60 * 1000,
         acquireTimeout: 60 * 60 * 1000,
         timeout: 60 * 60 * 1000,
         host: "localhost",
@@ -16,9 +18,11 @@ if (process.env.JAWSDB_URL) {
         user: "root",
         password: process.env.DB_PASSWORD,
         database: "recipes_db"
-    });
-}
+    }
 
+}
+pool = mysql.createPool(config);
+const sessionConnection = mysql.createConnection(config);
 
 function queryExecutor(query, values, cb) {
 
@@ -36,4 +40,21 @@ function queryExecutor(query, values, cb) {
 }
 
 
-module.exports = {pool, queryExecutor: queryExecutor};
+const getConnection = () => {
+    return new Promise((resolve, reject) => {
+        pool.getConnection(function (err, connection) {
+            if (err) {
+                console.log('failed to open connection', err);
+                return reject(err);
+            }
+            console.log('in Promise', connection);
+            resolve(connection);
+        });
+    });
+};
+const getConnectionWrapper = async () => {
+    const connection = await getConnection();
+    console.log('in wrapper', connection);
+};
+
+module.exports = {pool, queryExecutor: queryExecutor, sessionConnection};
