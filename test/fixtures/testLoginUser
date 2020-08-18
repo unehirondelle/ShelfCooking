@@ -1,0 +1,22 @@
+const req = require("supertest");
+const agent = req.agent("http://localhost:3000");
+
+function loginUser() {
+    return function (done) {
+        this.timeout(500);
+        setTimeout(done, 300);
+        agent
+            .post('/login')
+            .send({username: 'admin', password: 'admin'})
+            .expect(302)
+            .expect('Location', '/')
+            .end(onResponse);
+
+        function onResponse(err, res) {
+            if (err) return err;
+            return done();
+        }
+    };
+}
+
+module.exports = loginUser;

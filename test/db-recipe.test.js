@@ -1,21 +1,48 @@
 const chai = require('chai');
 const sinon = require('sinon');
-const sinonChai = require("sinon-chai");
-const {mockReq, mockRes} = require('sinon-express-mock');
-const auth = require("../helpers/checkAuthenticated");
-const supertest = require("supertest");
-const app = require("../server");
 
-chai.use(sinonChai);
+const auth = require("../helpers/checkAuthenticated");
+const dbConnection = require("../config/connection");
+const supertest = require("supertest");
+
 const expect = chai.expect;
 
-const dbConnection = require("../config/connection");
+describe("mock DB connection", () => {
+    it('returns fake content', function () {
+
+        sinon.stub(auth, "checkAuthenticated")
+            .callsFake(function (req, res, next) {
+                return next();
+            });
+        const app = require("../server");
+        sinon.stub(dbConnection, "queryExecutor").callsArgWith(2, undefined, [{type: 'oleole'}, {type: 'one more'}]);
+        supertest(app).get("/cookbook")
+            .expect(function (r) {
+                console.log(r.text)
+                chai.assert(r.text.includes('ole'), 'should contain ole');
+            })
+            .expect(200);
+
+    });
+});
+
+// const chai = require('chai');
+// const sinon = require('sinon');
+const sinonChai = require("sinon-chai");
+
+// const supertest = require("supertest");
+chai.use(sinonChai);
+// const expect = chai.expect;
+
+const {mockReq, mockRes} = require('sinon-express-mock');
+// const dbConnection = require("../config/connection");
 const dbService = require("../config/db-service");
 const mySql = require("../helpers/mysql/executeQuery");
 const sql = require("../helpers/mysql/sqlQuery-cookbook");
 const eh = require("../helpers/eh");
 
 describe('Route: /add-recipe', () => {
+
     it('should save new recipe details to the database', async () => {
         const request = {
             body: {
@@ -152,7 +179,9 @@ describe('Route: /add-recipe', () => {
         sinon.restore()
     });
 
-    it('should build the SQL request from given parameters', async () => {
+    it('should build the SQL request from given parameters', function (done) {
+        this.timeout(500);
+        setTimeout(done, 300);
         const request = {
             body: {
                 recipeName: "New Cake",
@@ -176,28 +205,12 @@ describe('Route: /add-recipe', () => {
 
         const spyInsertQuery = sinon.spy(sql, "insertRecipe");
 
-        await dbService.createRecipe(req, res);
+        dbService.createRecipe(req, res);
 
         expect(sql.insertRecipe(request.body.recipeName, request.body.method, request.body.recipeTime, request.body.portions, request.body.recipeCategory, request.body.utensils)).to.equal(sqlRequest);
 
         sinon.assert.calledWith(spyInsertQuery, request.body.recipeName, request.body.method, request.body.recipeTime, request.body.portions, request.body.recipeCategory, request.body.utensils);
         sinon.restore();
-
-    });
-
-    it('mocks the DB connection', (done) => {
-
-        sinon.stub(auth, 'checkAuthenticated')
-            .callsFake(function (req, res, next) {
-                return next();
-            });
-        sinon.stub(dbConnection, "queryExecutor").callsArgWith(2, undefined, [{type: 'new category'}, {type: 'one more'}])
-        supertest(app).get("/cookbook")
-            .expect((r) => {
-                console.log(r.text)
-                chai.assert(r.text.includes('new'), 'should contain new');
-            })
-            .expect(200, done);
 
     });
 
