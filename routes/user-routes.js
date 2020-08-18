@@ -6,6 +6,21 @@ const session = require("express-session");
 const methodOverride = require("method-override");
 const dbConnection = require("../config/connection");
 const auth = require("../helpers/checkAuthenticated");
+const MySQLStore = require("express-mysql-session")(session);
+
+const sessionStore = new MySQLStore({
+    checkExpirationInterval: 900000,// How frequently expired sessions will be cleared; milliseconds.
+    expiration: 86400000,// The maximum age of a valid session; milliseconds.
+    createDatabaseTable: true,// Whether or not to create the sessions database table, if one does not already exist.
+    schema: {
+        tableName: 'sessions',
+        columnNames: {
+            session_id: 'session_id',
+            expires: 'expires',
+            data: 'data'
+        }
+    }
+}, dbConnection);
 
 module.exports = function (app) {
 
@@ -14,8 +29,13 @@ module.exports = function (app) {
     app.use(flash());
     app.use(session({
         secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false
+        resave: true,
+        saveUninitialized: false,
+        duration: 30 * 60 * 1000,
+        activeDuration: 5 * 60 * 1000,
+        cookie: { maxAge: 60000 },
+        rolling: true,
+        store: sessionStore
     }));
     app.use(passport.initialize());
     app.use(passport.session());
@@ -57,7 +77,7 @@ module.exports = function (app) {
                     if (err) throw err;
                     if (data.length === 0) {
                         dbConnection.queryExecutor(
-                            `insert into users (id, username, email, password) values ("${Date.now().toString()}", ?, ?, "${hashedPassword}")`,
+                            `insert into users (username, email, password) values (?, ?, "${hashedPassword}")`,
                             [req.body.username, req.body.email],
                             (err) => {
                                 if (err) throw err;
