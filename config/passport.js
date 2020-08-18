@@ -2,8 +2,10 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 const dbConnection = require("./connection.js");
 
+
 function initialize(passport) {
     passport.serializeUser((user, done) => {
+        console.log("serializeUser: ", user);
         done(null, user);
     });
 
@@ -12,7 +14,8 @@ function initialize(passport) {
             "select * from users where email = ?",
             [user],
             (err, data) => {
-                done(err, data[0].id);
+                console.log("deserializeUser: ", user);
+                done(err, data[0]);
             }
         );
     });

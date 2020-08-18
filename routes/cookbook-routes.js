@@ -10,6 +10,7 @@ module.exports = function (app) {
     }));
 
     app.get("/cookbook", auth.checkAuthenticated, (req, res) => {
+        console.log("req.user:", req.user);
         dbConnection.queryExecutor(
             "select distinct (type) from recipes;",
             null,

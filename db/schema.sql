@@ -4,15 +4,21 @@ use recipes_db;
 
 create table recipes
 (
-    id         int auto_increment primary key,
-    name       varchar(50),
-    method     varchar(10000),
-    time       varchar(10),
-    person_num int,
-    type       varchar(30),
-    image      longblob,
-    utensils   varchar(10000),
-    unique (name)
+    id         int auto_increment
+        primary key,
+    name       varchar(50)    null,
+    method     varchar(10000) null,
+    time       varchar(10)    null,
+    person_num int            null,
+    type       varchar(30)    null,
+    image      longblob       null,
+    utensils   varchar(250)   null,
+    user_id    int            null,
+    constraint recipes_name_uindex
+        unique (name),
+    constraint fk_userId
+        foreign key (user_id) references users (id)
+            on update cascade on delete cascade
 );
 
 create table measurement_units
@@ -40,9 +46,12 @@ create table recipe_ingredients
 
 create table users
 (
-    id       int,
-    username varchar(250),
-    email    varchar(250),
-    password varchar(250),
-    unique (email)
+    id       int auto_increment
+        primary key,
+    username varchar(250) null,
+    email    varchar(250) null,
+    password varchar(250) null
 );
+
+create unique index users_email_uindex
+    on users (email);
