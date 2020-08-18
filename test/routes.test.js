@@ -1,4 +1,5 @@
 const decache = require("decache");
+
 const req = require("supertest");
 const agent = req.agent("http://localhost:3000");
 const loginUser = require("./fixtures/testLoginUser");
@@ -11,12 +12,7 @@ const auth = require("../helpers/checkAuthenticated");
 describe("Unauthenticated access to Homepage", () => {
 
     it("unauthenticated attempt redirects to login page", (done) => {
-
-        // sinon.restore();
-        sinon.stub(auth, "checkAuthenticated")
-            .callsFake(function (req, res, next) {
-                return req.isAuthenticated() === true;
-            });
+        // decache("../server");
         const app = require("../server");
         req(app).get("/").expect(401, done);
     });
@@ -25,17 +21,18 @@ describe("Unauthenticated access to Homepage", () => {
 
 
 describe("Authenticated access to Homepage", () => {
-    let app_home;
+
+    afterEach(function () {
+        auth.checkAuthenticated.restore();
+    });
 
     it("authenticated attempt redirects to homepage", (done) => {
+        // decache("../server");
+        sinon.stub(auth, "checkAuthenticated").callsFake(function (req, res, next) {
+            return next();
+        });
 
-   /*     sinon.stub(auth, "checkAuthenticated")
-            .callsFake(function (req, res, next) {
-                return next();
-            });
-*/
-
-        app_home = require("../server");
+        const app_home = require("../server");
         req(app_home).get("/").expect(200, done);
 
     });

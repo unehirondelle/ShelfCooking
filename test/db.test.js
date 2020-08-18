@@ -7,29 +7,32 @@ const supertest = require("supertest");
 
 const expect = chai.expect;
 
+
+
 describe("mock DB connection", () => {
+    after(function () {
+        auth.checkAuthenticated.restore();
+    });
+
     it('returns fake content', function (done) {
 
-        sinon.stub(auth, "checkAuthenticated")
-            .callsFake(function (req, res, next) {
-                return next();
-            });
-        // sinon.restore();
+        sinon.stub(auth, "checkAuthenticated").callsFake(function (req, res, next) {
+              next();
 
-        const app = require("../server");
+        });
 
         sinon.stub(dbConnection, "queryExecutor").callsArgWith(2, undefined, [{type: 'oleole'}, {type: 'one more'}]);
-        // sinon.restore();
-
+        const app = require("../server");
         supertest(app).get("/cookbook")
             .expect(function (r) {
                 console.log(r.text)
                 chai.assert(r.text.includes('ole'), 'should contain ole');
+
             })
             .expect(200, done);
 
     });
-    // sinon.restore();
+
 });
 
 // const chai = require('chai');
