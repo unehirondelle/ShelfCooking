@@ -64,11 +64,12 @@ module.exports = function (app) {
                                 res.redirect("/");
                             }
                         );
-                    }
+                    } else
+                    return res.status(403).render("signup", {message: "There is a user with such email"});
                 }
             );
 
-        } catch {
+        } catch (err) {
             res.redirect("/signup");
         }
     });
