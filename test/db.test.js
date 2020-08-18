@@ -1,19 +1,58 @@
-const chai = require('chai')
-const sinon = require('sinon')
+const chai = require('chai');
+const sinon = require('sinon');
+
+const auth = require("../helpers/checkAuthenticated");
+const dbConnection = require("../config/connection");
+const supertest = require("supertest");
+
+const expect = chai.expect;
+
+
+
+describe("mock DB connection", () => {
+    after(function () {
+        auth.checkAuthenticated.restore();
+    });
+
+    it('returns fake content', function (done) {
+
+        sinon.stub(auth, "checkAuthenticated").callsFake(function (req, res, next) {
+              next();
+
+        });
+
+        sinon.stub(dbConnection, "queryExecutor").callsArgWith(2, undefined, [{type: 'oleole'}, {type: 'one more'}]);
+        const app = require("../server");
+        supertest(app).get("/cookbook")
+            .expect(function (r) {
+                console.log(r.text)
+                chai.assert(r.text.includes('ole'), 'should contain ole');
+
+            })
+            .expect(200, done);
+
+    });
+
+});
+
+// const chai = require('chai');
+// const sinon = require('sinon');
 const sinonChai = require("sinon-chai");
-const {mockReq, mockRes} = require('sinon-express-mock');
 
+// const supertest = require("supertest");
 chai.use(sinonChai);
-const expect = chai.expect
+// const expect = chai.expect;
 
+const {mockReq, mockRes} = require('sinon-express-mock');
+// const dbConnection = require("../config/connection");
 const dbService = require("../config/db-service");
 const mySql = require("../helpers/mysql/executeQuery");
 const sql = require("../helpers/mysql/sqlQuery-cookbook");
 const eh = require("../helpers/eh");
 
 describe('Route: /add-recipe', () => {
-    it('should save new recipe details to the database', async () => {
 
+    it('should save new recipe details to the database', async () => {
         const request = {
             body: {
                 recipeName: "Mocha Cake",
@@ -21,7 +60,8 @@ describe('Route: /add-recipe', () => {
                 recipeTime: "3 h",
                 portions: "12",
                 recipeCategory: "Dessert",
-                utensils: null
+                utensils: null,
+                ingredient: null
             },
             files: {
                 recipeImage: sinon.stub()
@@ -29,7 +69,6 @@ describe('Route: /add-recipe', () => {
         }
 
         const req = mockReq(request);
-
         const res = mockRes();
 
         const dbResult = [{recipeId: "1"}];
@@ -45,12 +84,12 @@ describe('Route: /add-recipe', () => {
         })
 
         sinon.assert.calledOnce(spyInsertQuery)
-        sinon.assert.calledWith(spyInsertQuery, request.body.recipeName,  request.body.method, request.body.recipeTime, request.body.portions, request.body.recipeCategory, request.body.utensils);
+        sinon.assert.calledWith(spyInsertQuery, request.body.recipeName, request.body.method, request.body.recipeTime, request.body.portions, request.body.recipeCategory, request.body.utensils);
         sinon.assert.calledOnce(spySelectQuery)
         sinon.assert.calledWith(spySelectQuery, request.body.recipeName)
         sinon.assert.calledTwice(stubMySql)
         sinon.restore()
-    })
+    });
 
     it('should display an error if a customer attempts to create a recipe with a duplicated name', async () => {
         const err = {
@@ -81,7 +120,7 @@ describe('Route: /add-recipe', () => {
             message: "You have entered a duplicate name!"
         })
         sinon.restore()
-    })
+    });
 
     it('should display an error if a customer leaves the name value blank', async () => {
         const request = {
@@ -107,7 +146,7 @@ describe('Route: /add-recipe', () => {
             message: "The name value is blank. Please enter a unique name."
         })
         sinon.restore()
-    })
+    });
 
     it('should display an meaningful error when a downstream/underlying network request fails', async () => {
         const err = {
@@ -147,5 +186,41 @@ describe('Route: /add-recipe', () => {
         sinon.assert.calledOnce(spyErrorsHandler)
         sinon.assert.calledWith(spyErrorsHandler, err)
         sinon.restore()
-    })
+    });
+
+    it('should build the SQL request from given parameters', function (done) {
+        this.timeout(500);
+        setTimeout(done, 300);
+        const request = {
+            body: {
+                recipeName: "New Cake",
+                method: null,
+                recipeTime: "3 h",
+                portions: "12",
+                recipeCategory: "Dessert",
+                utensils: null,
+                ingredient: null
+            },
+            files: {
+                recipeImage: sinon.stub()
+            }
+        }
+
+        const req = mockReq(request);
+        const res = mockRes();
+
+        const sqlRequest = `INSERT INTO recipes (name, method, time, person_num, type, image, utensils)
+            VALUES("New Cake", "null", "3 h", "12", "Dessert", ?, "null");`;
+
+        const spyInsertQuery = sinon.spy(sql, "insertRecipe");
+
+        dbService.createRecipe(req, res);
+
+        expect(sql.insertRecipe(request.body.recipeName, request.body.method, request.body.recipeTime, request.body.portions, request.body.recipeCategory, request.body.utensils)).to.equal(sqlRequest);
+
+        sinon.assert.calledWith(spyInsertQuery, request.body.recipeName, request.body.method, request.body.recipeTime, request.body.portions, request.body.recipeCategory, request.body.utensils);
+        sinon.restore();
+
+    });
+
 })
