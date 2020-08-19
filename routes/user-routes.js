@@ -10,7 +10,7 @@ const mySQLStore = require("express-mysql-session")(session);
 
 const sessionConnection = dbConnection.sessionConnection;
 
-console.log("created session storage connection", sessionConnection);
+// console.log("created session storage connection", sessionConnection);
 const sessionStore = new mySQLStore({
     checkExpirationInterval: 900000,// How frequently expired sessions will be cleared; milliseconds.
     expiration: 86400000,// The maximum age of a valid session; milliseconds.
@@ -35,7 +35,7 @@ module.exports = function (app) {
         saveUninitialized: false,
         duration: 30 * 60 * 1000,
         activeDuration: 5 * 60 * 1000,
-        cookie: { maxAge: 60000 },
+        cookie: {maxAge: 60000},
         rolling: true,
         store: sessionStore
     }));
@@ -55,13 +55,13 @@ module.exports = function (app) {
     }));
 
     app.get("/", auth.checkAuthenticated, (req, res) => {
-        const sql = "select distinct (type) from recipes;";
+        const sql = `select distinct (type) from recipes where user_id="${req.user.id}";`;
         dbConnection.queryExecutor(
             sql,
             null,
             (err, data) => {
                 if (err) throw err;
-                res.render("index", {type: data});
+                res.render("index", {type: data, user: req.user});
             }
         );
     });
@@ -74,7 +74,7 @@ module.exports = function (app) {
         try {
             const hashedPassword = await bcrypt.hash(req.body.password, 10);
             dbConnection.queryExecutor(
-                `select * from users where email = "${req.body.email}"`,
+                `select * from users where email="${req.body.email}"`,
                 null,
                 (err, data) => {
                     if (err) throw err;
@@ -88,7 +88,7 @@ module.exports = function (app) {
                             }
                         );
                     } else
-                    return res.status(401).render("signup", {message: "There is a user with such email"});
+                        return res.status(401).render("signup", {message: "There is a user with such email"});
                 }
             );
 
