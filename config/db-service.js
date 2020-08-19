@@ -13,6 +13,8 @@ async function createRecipe(req, res) {
         image = req.files.recipeImage.data;
     }
 
+    let user_id = req.user.id;
+
     let message = "";
 
     try {
@@ -21,9 +23,9 @@ async function createRecipe(req, res) {
             let sqlQuery = sql.insertRecipe(recipeName, method, recipeTime, portions, recipeCategory, utensils);
 
             if (!ingredient) {
-                await mySql.executeQuery(sqlQuery, image);
+                await mySql.executeQuery(sqlQuery, image, user_id);
             } else {
-                let recipeResponse = await mySql.executeQuery(sqlQuery, image);
+                let recipeResponse = await mySql.executeQuery(sqlQuery, image, user_id);
                 insertId = recipeResponse.insertId;
 
                 sqlQuery = sql.insertIngredients(insertId);

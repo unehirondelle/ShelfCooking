@@ -1,10 +1,10 @@
 const dbConnection = require("../../config/connection");
 
 
-async function executeQuery(sqlString, image) {
+async function executeQuery(sqlString, image, user_id) {
     return await new Promise((resolve, reject) => {
         dbConnection.queryExecutor(sqlString,
-            [image],
+            [image, user_id],
             (err, res) => {
                 if (err) reject(err);
                 resolve(res);

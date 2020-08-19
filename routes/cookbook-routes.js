@@ -12,18 +12,18 @@ module.exports = function (app) {
     app.get("/cookbook", auth.checkAuthenticated, (req, res) => {
         console.log("req.user:", req.user);
         dbConnection.queryExecutor(
-            "select distinct (type) from recipes;",
+            `select distinct (type) from recipes where user_id="${req.user.id}";`,
             null,
             (err, data) => {
                 if (err) throw err;
-                res.status(200).render("index", {type: data});
+                res.status(200).render("index", {type: data, user: req.user});
             }
         );
     });
 
     app.get("/cookbook/:recipeType", auth.checkAuthenticated, (req, res) => {
         dbConnection.queryExecutor(
-            `select * from recipes where type="${req.params.recipeType}"`,
+            `select * from recipes where type="${req.params.recipeType}" and user_id="${req.user.id}";`,
             null,
             (err, data) => {
                 if (err) throw err;
@@ -34,7 +34,7 @@ module.exports = function (app) {
 
     app.get("/cookbook/recipes/:recipeId", auth.checkAuthenticated, (req, res) => {
         dbConnection.queryExecutor(
-            `select * from recipes where id="${req.params.recipeId}"`,
+            `select * from recipes where id="${req.params.recipeId}" and user_id="${req.user.id}";`,
             null,
             (err, data_route) => {
                 if (err) throw err;
@@ -52,7 +52,7 @@ module.exports = function (app) {
 
     app.get("/images/:imageId", auth.checkAuthenticated, (req, res) => {
         dbConnection.queryExecutor(
-            `select * from recipes where id="${req.params.imageId}"`,
+            `select * from recipes where id="${req.params.imageId}" and user_id="${req.user.id}"`,
             null,
             (err, data) => {
                 if (err) throw err;

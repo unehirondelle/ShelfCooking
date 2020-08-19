@@ -4,8 +4,8 @@ function selectNameAndRecipeId(params) {
 }
 
 function insertRecipe(recipeName, method, recipeTime, portions, recipeCategory, utensils) {
-    return `INSERT INTO recipes (name, method, time, person_num, type, image, utensils)
-            VALUES("${recipeName}", "${method}", "${recipeTime}", "${portions}", "${recipeCategory}", ?, "${utensils}");`
+    return `INSERT INTO recipes (name, method, time, person_num, type, image, utensils, user_id)
+            VALUES("${recipeName}", "${method}", "${recipeTime}", "${portions}", "${recipeCategory}", ?, "${utensils}", ?);`
 }
 
 function insertIngredients(insertId) {
