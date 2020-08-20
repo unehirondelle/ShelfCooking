@@ -4,7 +4,6 @@ const express = require("express");
 const expressHandlebars = require("express-handlebars");
 const path = require("path");
 const dir = path.join(__dirname, 'public');
-const fs = require("fs");
 
 const PORT = process.env.PORT || 3010;
 
