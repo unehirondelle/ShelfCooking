@@ -18,7 +18,11 @@
                     <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
                         <a href="/cookbook/recipes/{{id}}">
                             <div class="card">
-                                <img src="/images/{{id}}" class="card-img-top" alt="{{name}} picture">
+                                {{#if image}}
+                                    <img src="/images/{{id}}" class="card-img-top" alt="{{name}} picture">
+                                {{else}}
+                                    <img src="../img/RecipePlaceholder.jpg" class="card-img-top" alt="{{name}} picture">
+                                {{/if}}
                                 <div>
                                     <h6><i class="bx bx-time"></i> {{time}} <i class="bx bx-face"></i>{{person_num}}
                                     </h6>
