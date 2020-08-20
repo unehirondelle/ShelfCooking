@@ -8,6 +8,7 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+
 body {
     font-family: "Open Sans", sans-serif;
     color: #444444;
@@ -34,11 +35,27 @@ h1, h2, h3, h4, h5, h6, .font-primary {
 .card-body {
     padding: 1vw 0 1vw 2vw;
 }
+
+.btn-outline-danger {
+    color: #2f1708;
+    border-color: #2f1708;
+}
+
+.btn-outline-danger:hover {
+    color: #fff;
+    background-color: #2f1708;
+    border-color: #2f1708;
+}
+
+.user-entry {
+    margin: 1% 0;
+    font-weight: 600;
+    text-decoration: underline;
+}
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
 #header {
-    height: 80px;
     padding: 20px 0;
     z-index: 10;
     position: relative;
@@ -61,12 +78,9 @@ h1, h2, h3, h4, h5, h6, .font-primary {
 #header .logo img {
     padding: 0;
     margin: 0;
-    max-height: 40px;
+    max-height: 45px;
 }
 
-.logout {
-    float: right;
-}
 
 @media (max-width: 768px) {
     #header .logo h1 {
@@ -150,13 +164,13 @@ h1, h2, h3, h4, h5, h6, .font-primary {
     line-height: 1;
     cursor: pointer;
     text-align: right;
-    padding: 10px 12px;
+    padding: 1% 0;
     border-radius: 2px;
 }
 
 .nav-toggle i {
     color: #444;
-    font-size: 30px;
+    font-size: 45px;
 }
 
 .nav-toggle-active {
@@ -165,6 +179,28 @@ h1, h2, h3, h4, h5, h6, .font-primary {
 
 main {
     margin-bottom: 15vh;
+}
+
+main h1.welcome-user {
+    padding: 0 15px;
+}
+
+#newItemForm {
+    margin: 3% 0;
+}
+
+.form-row {
+    margin: 1% 0;
+}
+
+.btn-primary {
+    background-color: #FD6D04;
+    border-color: #FD6D04;
+}
+
+.btn-primary:hover {
+    background-color: #FD6D04;
+    border-color: #fff;
 }
 
 /*--------------------------------------------------------------
@@ -368,6 +404,9 @@ section {
     color: #666666;
 }
 
+section .card {
+margin-bottom: 5%;
+}
 /*--------------------------------------------------------------
 # Cookbook
 --------------------------------------------------------------*/

@@ -6,32 +6,38 @@
 
         <h1>Add new recipe</h1>
         <h3>Please, fill out all the fields to add the new recipe to the list</h3>
+        <h5>Fields marked with an asterisk (*) are required</h5>
 
-        <form method="post" action="/cookbook" enctype="multipart/form-data" id="newItemForm" name="newItemForm"
-              novalidate>
+        <form method="post" action="/cookbook" enctype="multipart/form-data" id="newItemForm" name="newItemForm">
             <div class="form-row">
                 <div>
-                    <label for="recipe-name">Recipe</label>
+                    <label for="recipe-name">Recipe*</label>
                     <input type="text" class="form-control error" id="recipe-name" name="recipeName"
-                           placeholder="Recipe's name"/>
-                    <label id="recipe-name-error" class="error" for="recipe-name">Please enter recipe's name</label>
+                           placeholder="Recipe's name" required/>
+                    <label id="recipe-name-error" class="error text-muted" for="recipe-name">Please enter recipe's
+                        name</label>
                 </div>
                 <div>
                     <label for="recipe-time">Time</label>
                     <input type="text" class="form-control error" id="recipe-time" name="recipeTime"
                            placeholder="Time"/>
-                    <label id="recipe-time-error" class="error" for="recipe-time">Please enter required time</label>
+                    <label id="recipe-time-error" class="error text-muted" for="recipe-time">Please enter required
+                        time</label>
                 </div>
                 <div>
                     <label for="person-num">Portions</label>
                     <small class="text-muted">Up to 20</small>
                     <input type="number" class="form-control error" id="person-num" name="portions"
                            min="1" max="20"/>
-                    <label id="person-num-error" class="error" for="person-num">Please enter number of portions</label>
+                    <label id="person-num-error" class="error text-muted" for="person-num">Please enter number of
+                        portions</label>
                 </div>
+            </div>
+
+            <div class="form-row">
                 <div>
-                    <label for="recipe-category">Category</label>
-                    <select class="custom-select error" id="recipe-category" name="recipeCategory">
+                    <label for="recipe-category">Category*</label>
+                    <select class="custom-select error" id="recipe-category" name="recipeCategory" required>
                         <option value>Choose one of these options</option>
                         <option value="Breakfast">Breakfast</option>
                         <option value="Lunch">Lunch</option>
@@ -41,18 +47,29 @@
                         <option value="Sauce">Sauce</option>
                         <option value="Drink">Drink</option>
                     </select>
-                    <label id="recipe-category-error" class="error" for="person-num">Please choose category</label>
+                    <label id="recipe-category-error" class="error text-muted" for="person-num">Please choose
+                        category</label>
                 </div>
+            </div>
+            <div class="form-row">
                 <div>
                     <label for="utensils">Utensils</label>
                     <textarea class="form-control error" id="utensils" name="utensils"
                               rows="1" cols="200"></textarea>
-                    <label id="utensils-error" class="error" for="utensils">Please enter utensils list</label>
+                    <label id="utensils-error" class="error text-muted" for="utensils">Please enter utensils
+                        list</label>
                 </div>
             </div>
-            <h3>Ingredients:</h3>
-            <button class="btn btn-primary" type="button" id="add-ingredient">Add Ingredient</button>
-            <div class="form-row" id="ingredients-list">
+
+            <div class="form-row clearfix" id="ingredients-list">
+                <div class="float-left">
+                    <h3>Ingredients:</h3>
+                </div>
+                <div class="float-right">
+                    <button class="btn btn-primary" type="button" id="add-ingredient">Add Ingredient
+                    </button>
+                </div>
+
                 <div class="col-12" id="ingredient-item">
                     <div class="row">
                         <div class="col-3">
@@ -74,14 +91,16 @@
                                 <option value="13">Ground Cinnamon</option>
                                 <option value="14">Fruits</option>
                             </select>
-                            <label id="ingredient-error" class="error" for="ingredient">Please enter ingredient's
+                            <label id="ingredient-error" class="error text-muted" for="ingredient">Please enter
+                                ingredient's
                                 name</label>
                         </div>
                         <div class="col-3">
                             <label for="ingredient-qty">Quantity</label>
                             <input type="text" class="form-control error" id="ingredient-qty" name="ingredientQty"
                                    placeholder="Quantity"/>
-                            <label id="ingredient-qty-error" class="error" for="ingredient">Please enter ingredient's
+                            <label id="ingredient-qty-error" class="error text-muted" for="ingredient">Please enter
+                                ingredient's
                                 quantity</label>
                         </div>
                         <div class="col-3">
@@ -98,7 +117,8 @@
                                 <option value="8">slice</option>
                                 <option value="9">ea</option>
                             </select>
-                            <label id="ingredient-unit-error" class="error" for="ingredient-unit">Please choose
+                            <label id="ingredient-unit-error" class="error text-muted" for="ingredient-unit">Please
+                                choose
                                 measurement
                                 unit</label>
                         </div>

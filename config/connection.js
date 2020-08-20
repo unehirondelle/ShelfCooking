@@ -4,7 +4,6 @@ require('dotenv').config();
 let pool;
 let config;
 
-
 if (process.env.JAWSDB_URL) {
     config = process.env.JAWSDB_URL;
 } else {
@@ -21,6 +20,7 @@ if (process.env.JAWSDB_URL) {
     }
 
 }
+
 pool = mysql.createPool(config);
 const sessionConnection = mysql.createConnection(config);
 
@@ -39,7 +39,6 @@ function queryExecutor(query, values, cb) {
     });
 }
 
-
 const getConnection = () => {
     return new Promise((resolve, reject) => {
         pool.getConnection(function (err, connection) {
@@ -48,36 +47,14 @@ const getConnection = () => {
                 return reject(err);
             }
             console.log('in Promise', connection);
-            handleDisconnect();
             resolve(connection);
         });
     });
 };
+
 const getConnectionWrapper = async () => {
     const connection = await getConnection();
     console.log('in wrapper', connection);
 };
-
-let connection;
-
-async function handleDisconnect() {
-     connection = await pool.getConnection((err) => {
-        if (err) {
-            console.log('error when connecting to db:', err);
-            setTimeout(handleDisconnect, 2000);
-        }
-    });
-
-    connection.on('error', (err) => {
-        console.log('db error', err);
-        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-            handleDisconnect();
-        } else {
-            throw err;
-        }
-    });
-}
-
-// handleDisconnect();
 
 module.exports = {pool, queryExecutor: queryExecutor, sessionConnection};
