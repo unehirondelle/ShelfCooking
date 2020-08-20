@@ -2,20 +2,15 @@ const mySql = require("../helpers/mysql/executeQuery");
 const sql = require("../helpers/mysql/sqlQuery-cookbook");
 const eh = require("../helpers/eh");
 
-const fs = require("fs");
-const path = require("path");
-const picturePlaceholder = fs.readFileSync(path.resolve(__dirname, "../public/img/RecipePlaceholder.jpg"));
-
 async function createRecipe(req, res) {
     const {recipeName, method, recipeTime, portions, recipeCategory, utensils, ingredient, ingredientQty, ingredientUnit} = req.body;
     let insertId;
-    // const {data} = req.files.recipeImage;
+
     let image;
     if (req.files === null) {
-        image = picturePlaceholder;
+        image = null;
     } else {
         image = req.files.recipeImage.data;
-
     }
 
     let user_id = req.user.id;

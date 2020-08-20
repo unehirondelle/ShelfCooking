@@ -10,7 +10,7 @@ if (process.env.JAWSDB_URL) {
 } else {
     config = {
         connectionLimit: 10,
-            connectTimeout: 60 * 60 * 1000,
+        connectTimeout: 60 * 60 * 1000,
         acquireTimeout: 60 * 60 * 1000,
         timeout: 60 * 60 * 1000,
         host: "localhost",
@@ -48,6 +48,7 @@ const getConnection = () => {
                 return reject(err);
             }
             console.log('in Promise', connection);
+            handleDisconnect();
             resolve(connection);
         });
     });
@@ -56,5 +57,27 @@ const getConnectionWrapper = async () => {
     const connection = await getConnection();
     console.log('in wrapper', connection);
 };
+
+let connection;
+
+async function handleDisconnect() {
+     connection = await pool.getConnection((err) => {
+        if (err) {
+            console.log('error when connecting to db:', err);
+            setTimeout(handleDisconnect, 2000);
+        }
+    });
+
+    connection.on('error', (err) => {
+        console.log('db error', err);
+        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+            handleDisconnect();
+        } else {
+            throw err;
+        }
+    });
+}
+
+// handleDisconnect();
 
 module.exports = {pool, queryExecutor: queryExecutor, sessionConnection};
