@@ -1,7 +1,7 @@
 {{> header}}
 
 <main id="main">
-        <h1 class="container">Hello, {{user.username}}!</h1>
+    <h1 class="container">Hello, {{user.username}}!</h1>
 
     {{#if message}}
         <div class="container alert alert-warning" role="alert">
@@ -14,11 +14,12 @@
 
             <div class="row">
                 <div class="col-lg-6">
-                    <h1><a href="/cookbook">CookBook</a> <a href="/add-recipe" class="plus-circle"><i class="bx bx-plus-circle"></i></a></h1>
+                    <a href="/cookbook"><h1>CookBook <a href="/add-recipe" class="plus-circle text-decoration-none"><i
+                            class="bx bx-plus-circle"></i></a></h1></a>
                 </div>
                 <div class="col-lg-6 pt-4 pt-lg-0">
                     {{#each type}}
-                        <h3 class="button cookbook-item"><a href="/cookbook/{{type}}">{{type}}</a></h3>
+                        <a href="/cookbook/{{type}}"><h3 class="button cookbook-item">{{type}}</h3></a>
                     {{/each}}
                 </div>
             </div>
@@ -26,32 +27,6 @@
         </div>
     </section>
 
-    <!--<section id="inventory" class="inventory">
-        <div class="container">
-
-            <div class="row">
-                <div class="col-lg-6">
-                    <h1>Inventory <a href="#" class="plus-circle"><i class="bx bx-plus-circle"></i></a></h1>
-                </div>
-                <div class="col-lg-6 pt-4 pt-lg-0">
-                    <h3 class="button cookbook-item">Pantry</h3>
-                    <h3 class="button cookbook-item">Fridge</h3>
-                    <h3 class="button cookbook-item">Freezer</h3>
-                </div>
-            </div>
-
-        </div>
-    </section>-->
-
 </main>
 
-<footer id="footer">
-    <div class="container">
-        <div class="copyright">
-            Irina Plaksina. 2020
-        </div>
-        <div class="credits">
-            Based on <strong><span>Siimple</span></strong> by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-    </div>
-</footer>
+{{> footer}}

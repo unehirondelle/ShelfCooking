@@ -5,26 +5,27 @@
     <div class="container">
 
         <h1>Add new recipe</h1>
-        <h3>Please, fill out all the fields to add the new recipe to the list</h3>
-        <h5>Fields marked with an asterisk (*) are required</h5>
+        <h6>Please, fill out all the fields to add the new recipe to the list <br/>
+            <small class="font-italic">Fields marked with an asterisk (*) are required</small>
+        </h6>
 
         <form method="post" action="/cookbook" enctype="multipart/form-data" id="newItemForm" name="newItemForm">
             <div class="form-row">
-                <div>
+                <div class="col-lg-3 col-md-3 col-12 form-group">
                     <label for="recipe-name">Recipe*</label>
                     <input type="text" class="form-control error" id="recipe-name" name="recipeName"
                            placeholder="Recipe's name" required/>
                     <label id="recipe-name-error" class="error text-muted" for="recipe-name">Please enter recipe's
                         name</label>
                 </div>
-                <div>
+                <div class="col-lg-3 col-md-3 col-12 form-group">
                     <label for="recipe-time">Time</label>
                     <input type="text" class="form-control error" id="recipe-time" name="recipeTime"
                            placeholder="Time"/>
                     <label id="recipe-time-error" class="error text-muted" for="recipe-time">Please enter required
                         time</label>
                 </div>
-                <div>
+                <div class="col-lg-3 col-md-3 col-12 form-group">
                     <label for="person-num">Portions</label>
                     <small class="text-muted">Up to 20</small>
                     <input type="number" class="form-control error" id="person-num" name="portions"
@@ -35,7 +36,7 @@
             </div>
 
             <div class="form-row">
-                <div>
+                <div class="col-12 form-group">
                     <label for="recipe-category">Category*</label>
                     <select class="custom-select error" id="recipe-category" name="recipeCategory" required>
                         <option value>Choose one of these options</option>
@@ -52,7 +53,7 @@
                 </div>
             </div>
             <div class="form-row">
-                <div>
+                <div class="col-12">
                     <label for="utensils">Utensils</label>
                     <textarea class="form-control error" id="utensils" name="utensils"
                               rows="1" cols="200"></textarea>
@@ -61,18 +62,16 @@
                 </div>
             </div>
 
-            <div class="form-row clearfix" id="ingredients-list">
-                <div class="float-left">
-                    <h3>Ingredients:</h3>
-                </div>
-                <div class="float-right">
-                    <button class="btn btn-primary" type="button" id="add-ingredient">Add Ingredient
+            <div class="form-row" id="ingredients-list">
+                <h3 class="col-6">Ingredients:</h3>
+                <div class="col-6 text-right">
+                    <button class="btn btn-primary ml-auto" type="button" id="add-ingredient">Add Ingredient
                     </button>
                 </div>
 
                 <div class="col-12" id="ingredient-item">
                     <div class="row">
-                        <div class="col-3">
+                        <div class="col-lg-4 col-md-4 col-12 form-group">
                             <label for="ingredient">Ingredient's name</label>
                             <select class="custom-select error" id="ingredient" name="ingredient">
                                 <option value>Choose one of these options</option>
@@ -95,7 +94,7 @@
                                 ingredient's
                                 name</label>
                         </div>
-                        <div class="col-3">
+                        <div class="col-lg-4 col-md-4 col-12  form-group">
                             <label for="ingredient-qty">Quantity</label>
                             <input type="text" class="form-control error" id="ingredient-qty" name="ingredientQty"
                                    placeholder="Quantity"/>
@@ -103,7 +102,7 @@
                                 ingredient's
                                 quantity</label>
                         </div>
-                        <div class="col-3">
+                        <div class="col-lg-4 col-md-4 col-12  form-group">
                             <label for="ingredient-unit">Unit</label>
                             <select class="custom-select error" id="ingredient-unit" name="ingredientUnit">
                                 <option value>Choose one of these options</option>
@@ -125,17 +124,23 @@
                     </div>
                 </div>
             </div>
-            <h3>Method:</h3>
             <div class="form-row">
-                <textarea class="form-control" name="method" rows="5"></textarea>
+                <div class="col-12">
+                    <h3>Method:</h3>
+                    <textarea class="form-control" name="method" rows="5"></textarea>
+                </div>
             </div>
-            <div class="form-row custom-file">
-                <label for="recipeImage" class="custom-file-label">Add the picture</label>
-                <input type="file" class="custom-file-input" accept="image/*" id="recipeImage" name="recipeImage"/>
+            <div class="form-row mx-0 my-3">
+                <div class="col-12 custom-file">
+                    <label for="recipeImage" class="custom-file-label">Add the picture</label>
+                    <input type="file" class="custom-file-input" accept="image/*" id="recipeImage" name="recipeImage"/>
+                </div>
             </div>
-            <button class="btn btn-primary" type="submit">Submit</button>
+            <button class="btn btn-primary my-2" type="submit">Submit</button>
         </form>
 
     </div>
 
 </main>
+
+{{> footer}}

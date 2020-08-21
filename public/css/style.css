@@ -12,6 +12,7 @@
 body {
     font-family: "Open Sans", sans-serif;
     color: #444444;
+
 }
 
 a {
@@ -19,73 +20,153 @@ a {
 }
 
 a:hover {
-    color: #ff8f4c;
     text-decoration: none;
+}
+
+a:hover {
+    color: #ff8f4c;
+    /*text-decoration: none;*/
 }
 
 h1, h2, h3, h4, h5, h6, .font-primary {
     font-family: "Raleway", sans-serif;
+    font-size: 1rem;
 }
 
 .list-items {
-    font-size: 0.8rem;
     padding: 1vw 0;
-}
-
-.card-body {
-    padding: 1vw 0 1vw 2vw;
 }
 
 .btn-outline-danger {
     color: #2f1708;
     border-color: #2f1708;
+    border-radius: 0;
 }
 
 .btn-outline-danger:hover {
     color: #fff;
     background-color: #2f1708;
     border-color: #2f1708;
+    border-radius: 0;
 }
 
-.user-entry {
-    margin: 1% 0;
-    font-weight: 600;
-    text-decoration: underline;
-}
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
-#header {
-    padding: 20px 0;
-    z-index: 10;
-    position: relative;
-}
-
-#header .logo h1 {
-    font-size: 36px;
-    margin: 0;
-    padding: 0;
-    line-height: 1;
-    font-weight: 300;
-    letter-spacing: 3px;
-}
-
-#header .logo h1 a, #header .logo h1 a:hover {
-    color: #fff;
-    text-decoration: none;
-}
 
 #header .logo img {
-    padding: 0;
-    margin: 0;
     max-height: 45px;
 }
 
+@media screen and (min-width: 1200px) {
+    h1, .h1 {
+        font-size: 2.5rem;
+    }
 
-@media (max-width: 768px) {
-    #header .logo h1 {
-        font-size: 28px;
-        padding: 8px 0;
+    h3, .h3 {
+        font-size: 2rem;
+    }
+
+    h5, .h5 {
+        font-size: 1.4rem;
+    }
+
+    h6, .h6 {
+        font-size: 1.2rem;
+    }
+
+    .list-items, #footer {
+        font-size: 1rem;
+    }
+
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    h1, .h1 {
+        font-size: 2.3rem;
+    }
+
+    h3, .h3 {
+        font-size: 2rem;
+    }
+
+    h5, .h5 {
+        font-size: 1.4rem;
+    }
+
+    h6, .h6 {
+        font-size: 1.2rem;
+    }
+
+    .list-items, #footer {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    h1, .h1 {
+        font-size: 2.2rem;
+    }
+
+    h3, .h3 {
+        font-size: 2rem;
+    }
+
+    h5, .h5 {
+        font-size: 1.4rem;
+    }
+
+    h6, .h6 {
+        font-size: 1.2rem;
+    }
+
+    .list-items, #footer {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 767px) {
+    h1, .h1 {
+        font-size: 2rem;
+    }
+
+    h3, .h3 {
+        font-size: 1.8rem;
+    }
+
+    h5, .h5 {
+        font-size: 1.6rem;
+    }
+
+    h6, .h6 {
+        font-size: 1.2rem;
+    }
+
+    .list-items, #footer {
+        font-size: 1rem;
+    }
+
+}
+
+@media screen and (max-width: 575px) {
+    h1, .h1 {
+        font-size: 1.8rem;
+    }
+
+    h3, .h3 {
+        font-size: 1.6rem;
+    }
+
+    h5, .h5 {
+        font-size: 1.4rem;
+    }
+
+    h6, .h6 {
+        font-size: 1.2rem;
+    }
+
+    .list-items, #footer {
+        font-size: 0.8rem;
     }
 }
 
@@ -122,7 +203,6 @@ h1, h2, h3, h4, h5, h6, .font-primary {
 
 .nav-menu a:hover, .nav-menu .active > a, .nav-menu li:hover > a {
     color: #ffa26a;
-    text-decoration: none;
 }
 
 .nav-menu .drop-down > a:after {
@@ -185,182 +265,21 @@ main h1.welcome-user {
     padding: 0 15px;
 }
 
-#newItemForm {
-    margin: 3% 0;
-}
-
-.form-row {
-    margin: 1% 0;
-}
-
 .btn-primary {
     background-color: #FD6D04;
     border-color: #FD6D04;
+    border-radius: 0;
 }
 
 .btn-primary:hover {
     background-color: #FD6D04;
     border-color: #fff;
+    border-radius: 0;
 }
 
-/*--------------------------------------------------------------
-# Hero Section
---------------------------------------------------------------*/
-#hero {
-    width: 100%;
-    height: 80vh;
-    background: url("../img/hero-bg.jpg") center center;
-    background-size: auto;
-    position: relative;
-    margin-top: -80px;
-    z-index: 9;
-}
-
-#hero .hero-container {
-    position: absolute;
-    bottom: 0;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    padding: 0 15px;
-}
-
-#hero h1 {
-    margin: 0 0 10px 0;
-    font-size: 48px;
-    font-weight: 400;
-    line-height: 56px;
-    line-height: 56px;
-    color: #444;
-}
-
-#hero h2 {
-    color: #444;
-    margin-bottom: 30px;
-    font-size: 24px;
-}
-
-#hero .php-email-form .validate {
-    display: none;
-    color: red;
-    margin: 0 0 15px 0;
-    font-weight: 400;
-    font-size: 13px;
-}
-
-#hero .php-email-form .error-message {
-    display: none;
-    color: #fff;
-    background: #ed3c0d;
-    text-align: center;
-    padding: 15px;
-    font-weight: 600;
-}
-
-#hero .php-email-form .sent-message {
-    display: none;
-    color: #fff;
-    background: #18d26e;
-    text-align: center;
-    padding: 15px;
-    font-weight: 600;
-}
-
-#hero .php-email-form .loading {
-    display: none;
-    background: rgba(255, 255, 255, 0.5);
-    text-align: center;
-    padding: 15px;
-    border-radius: 50px;
-}
-
-#hero .php-email-form .loading:before {
-    content: "";
-    display: inline-block;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    margin: 0 10px -6px 0;
-    border: 3px solid #18d26e;
-    border-top-color: #eee;
-    -webkit-animation: animate-loading-notify 1s linear infinite;
-    animation: animate-loading-notify 1s linear infinite;
-}
-
-@-webkit-keyframes animate-loading-notify {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes animate-loading-notify {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-#hero .php-email-form input {
-    border-radius: 50px;
-    box-shadow: none;
-    font-size: 14px;
-    border: 0;
-    padding: 0px 15px 2px 20px;
-    width: 250px;
-    height: 40px;
-    margin: 0 8px;
-}
-
-#hero .php-email-form button[type="submit"] {
-    font-family: "Raleway", sans-serif;
-    font-weight: 500;
-    font-size: 16px;
-    letter-spacing: 1px;
-    display: inline-block;
-    padding: 8px 30px;
-    border-radius: 50px;
-    transition: 0.5s;
-    margin: 10px;
-    border: none;
-    color: #fff;
-    background: #fd680e;
-}
-
-#hero .php-email-form button[type="submit"]:hover {
-    background: #fd8841;
-}
-
-@media (min-width: 1024px) {
-    #hero {
-        background-attachment: fixed;
-    }
-}
-
-@media (max-width: 768px) {
-    #hero h1 {
-        font-size: 28px;
-        line-height: 36px;
-    }
-
-    #hero h2 {
-        font-size: 18px;
-        line-height: 24px;
-        margin-bottom: 30px;
-    }
-
-    #hero .php-email-form input {
-        margin: 0 auto;
-    }
+.card-footer {
+    background-color: rgba(253, 104, 14, 0.1);
+    border-top: 1px solid rgba(253, 104, 14, .125);
 }
 
 /*--------------------------------------------------------------
@@ -380,7 +299,6 @@ section {
 }
 
 .section-title h2 {
-    font-size: 32px;
     font-weight: 300;
     margin-bottom: 20px;
     padding-bottom: 15px;
@@ -401,22 +319,22 @@ section {
 .section-title p {
     margin-bottom: 0;
     font-style: italic;
-    color: #666666;
+    color: #666;
 }
 
 section .card {
-margin-bottom: 5%;
+    margin-bottom: 5%;
 }
+
 /*--------------------------------------------------------------
 # Cookbook
 --------------------------------------------------------------*/
-.cookbook h1 a, .cookbook h3 a {
+.cookbook a h1, .cookbook h1 a, .cookbook a h3 {
     color: #444;
 }
 
 .cookbook h3 {
     font-weight: 300;
-    font-size: 26px;
 }
 
 .cookbook .plus-circle {
@@ -430,7 +348,6 @@ margin-bottom: 5%;
 }
 
 .cookbook ul i {
-    font-size: 20px;
     padding-right: 4px;
     color: #fd680e;
 }
@@ -458,308 +375,16 @@ margin-bottom: 5%;
     color: #fd680e;
 }
 
-.cart {
-    position: absolute;
-    right: 5vw;
-}
-
-/*--------------------------------------------------------------
-# Inventory
---------------------------------------------------------------*/
-.inventory {
-    padding-bottom: 30px;
-}
-
-.inventory h3 {
-    font-weight: 300;
-    font-size: 26px;
-}
-
-.inventory .plus-circle {
-    font-size: x-large;
-    color: #444;
-}
-
-.inventory .card {
-    border-radius: 3px;
-    border: 0;
-    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-}
-
-.inventory .card-icon {
-    text-align: center;
-    margin-top: -32px;
-}
-
-.inventory .card-icon i {
-    font-size: 32px;
-    color: #fff;
-    width: 64px;
-    height: 64px;
-    padding-top: 10px;
-    text-align: center;
-    background-color: #fd680e;
-    border-radius: 50%;
-    text-align: center;
-    border: 4px solid #fff;
-    transition: 0.3s;
-    display: inline-block;
-}
-
-.inventory .card-body {
-    padding-top: 12px;
-}
-
-.inventory .card-title {
-    font-weight: 700;
-    text-align: center;
-    color: #fd680e;
-}
-
-.inventory .card-title a {
-    color: #743e1d;
-}
-
-.inventory .card-title a:hover {
-    color: #fd680e;
-}
-
-.inventory .card-text {
-    color: #5e5e5e;
-}
-
-.inventory .card:hover .card-icon i {
-    background: #fff;
-    color: #fd680e;
-}
-
-@media (max-width: 1024px) {
-    .inventory {
-        background-attachment: scroll;
-    }
-}
-
-/*--------------------------------------------------------------
-# Frequenty Asked Questions
---------------------------------------------------------------*/
-.faq {
-    padding-bottom: 60px;
-}
-
-.faq .faq-list {
-    padding: 0;
-    list-style: none;
-}
-
-.faq .faq-list li {
-    border-bottom: 1px solid #eee;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-}
-
-.faq .faq-list a {
-    display: block;
-    position: relative;
-    font-family: #fd680e;
-    font-size: 18px;
-    line-height: 24px;
-    font-weight: 400;
-    padding-right: 25px;
-}
-
-.faq .faq-list i {
-    font-size: 24px;
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-.faq .faq-list p {
-    margin-bottom: 0;
-    padding: 10px 0 0 0;
-}
-
-.faq .faq-list .icon-show {
-    display: none;
-}
-
-.faq .faq-list a.collapsed {
-    color: #343a40;
-}
-
-.faq .faq-list a.collapsed:hover {
-    color: #fd680e;
-}
-
-.faq .faq-list a.collapsed .icon-show {
-    display: inline-block;
-}
-
-.faq .faq-list a.collapsed .icon-close {
-    display: none;
-}
-
-/*--------------------------------------------------------------
-# Contact Us
---------------------------------------------------------------*/
-.contact .info {
-    color: #444444;
-}
-
-.contact .info i {
-    font-size: 32px;
-    color: #fd680e;
-    float: left;
-}
-
-.contact .info p {
-    padding: 0 0 10px 50px;
-    margin-bottom: 20px;
-    line-height: 22px;
-    font-size: 14px;
-}
-
-.contact .info .email p {
-    padding-top: 5px;
-}
-
-.contact .social-links a {
-    font-size: 18px;
-    display: inline-block;
-    background: #5a2c10;
-    color: #fff;
-    line-height: 1;
-    padding: 8px 0;
-    border-radius: 50%;
-    text-align: center;
-    width: 36px;
-    height: 36px;
-    transition: 0.3s;
-}
-
-.contact .social-links a:hover {
-    background: #fd680e;
-    color: #fff;
-}
-
-.contact .php-email-form .validate {
-    display: none;
-    color: red;
-    margin: 0 0 15px 0;
-    font-weight: 400;
-    font-size: 13px;
-}
-
-.contact .php-email-form .error-message {
-    display: none;
-    color: #fff;
-    background: #ed3c0d;
-    text-align: left;
-    padding: 15px;
-    font-weight: 600;
-}
-
-.contact .php-email-form .error-message br + br {
-    margin-top: 25px;
-}
-
-.contact .php-email-form .sent-message {
-    display: none;
-    color: #fff;
-    background: #18d26e;
-    text-align: center;
-    padding: 15px;
-    font-weight: 600;
-}
-
-.contact .php-email-form .loading {
-    display: none;
-    background: #fff;
-    text-align: center;
-    padding: 15px;
-}
-
-.contact .php-email-form .loading:before {
-    content: "";
-    display: inline-block;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    margin: 0 10px -6px 0;
-    border: 3px solid #18d26e;
-    border-top-color: #eee;
-    -webkit-animation: animate-loading 1s linear infinite;
-    animation: animate-loading 1s linear infinite;
-}
-
-.contact .php-email-form input, .contact .php-email-form textarea {
-    border-radius: 0;
-    box-shadow: none;
-    font-size: 14px;
-}
-
-.contact .php-email-form input:focus, .contact .php-email-form textarea:focus {
-    border-color: #fd680e;
-}
-
-.contact .php-email-form button[type="submit"] {
-    background: #fd680e;
-    border: 0;
-    padding: 10px 24px;
-    color: #fff;
-    transition: 0.4s;
-}
-
-.contact .php-email-form button[type="submit"]:hover {
-    background: #fd8841;
-}
-
-@media (max-width: 768px) {
-    .contact .social-links {
-        text-align: center;
-    }
-}
-
-@-webkit-keyframes animate-loading {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes animate-loading {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
 /*--------------------------------------------------------------
 # Footer
 --------------------------------------------------------------*/
 #footer {
     background: #2f1708;
-    padding: 30px 0;
+    padding: 1.5vh 0;
     color: #fff;
-    font-size: 14px;
     position: fixed;
     bottom: 0;
     width: 100%;
     max-height: 15vh;
-}
-
-#footer .copyright {
-    text-align: center;
-}
-
-#footer .credits {
-    padding-top: 10px;
-    text-align: center;
-    font-size: 13px;
-    color: #fff;
+    line-height: 1.5;
 }

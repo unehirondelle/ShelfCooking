@@ -3,13 +3,14 @@
 <main id="main">
     <section id="cookbook" class="cookbook">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 d-flex align-items-stretch">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-12">
                     <div class="card">
                         {{#if recipe.image}}
                             <img src="/images/{{recipe.id}}" class="card-img-top" alt="{{recipe.name}} picture">
                         {{else}}
-                            <img src="../../img/RecipePlaceholder.jpg" class="card-img-top" alt="{{recipe.name}} picture">
+                            <img src="../../img/RecipePlaceholder.jpg" class="card-img-top"
+                                 alt="{{recipe.name}} picture">
                         {{/if}}
                         <div>
                             <h6><i class="bx bx-time"></i> {{recipe.time}} <i
@@ -24,9 +25,9 @@
                                 <h6><u>Ingredients:</u></h6>
                                 <ul class="list-items">
                                     {{#each ingredients}}
-                                        <li><i class="bx bx-checkbox"></i>{{name}},
+                                        <li class="clearfix"><i class="bx bx-checkbox h5 float-left"></i>{{name}},
                                             <small><em>{{amount}} {{unit}}</em></small>
-                                            <i class="bx bx-cart cart"></i>
+                                            <i class="bx bx-cart cart h5 float-right"></i>
                                         </li>
                                     {{/each}}
                                 </ul>
@@ -35,7 +36,11 @@
                             </div>
                         </div>
                         <a href="/cookbook/{{recipe.type}}">
-                            Back to {{recipe.type}} list
+                            <div class="card-footer">
+                                <p class="text-center h5">
+                                    Back to {{recipe.type}} list
+                                </p>
+                            </div>
                         </a>
                     </div>
                 </div>
@@ -44,3 +49,5 @@
     </section>
 
 </main>
+
+{{> footer}}
